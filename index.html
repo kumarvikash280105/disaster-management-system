@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disaster Management Website Template</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="https://www.codewithfaraz.com/tools/placeholder?size=32x32&bgColor=005a9c&textColor=f8f9fa&text=AG" type="image/png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#mainNavbar" data-bs-offset="100">
+
+    <!-- 1. Navbar -->
+    <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-shield-halved"></i>Community disaster Management System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span></span><span></span><span></span><span></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#hero">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#access-report">Report</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Resources
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#resources">Safety Guides</a></li>
+                            <li><a class="dropdown-item" href="#blog">Blog & News</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#contact">Emergency Contacts</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+                <span class="user-status-badge d-none d-lg-inline-flex ms-lg-3" id="userStatus">Guest Mode</span>
+                <a href="#cta" class="btn btn-premium d-none d-lg-inline-block ms-lg-3"
+                    style="background: var(--accent-color); color: var(--dark-color); border-color: var(--accent-color);">Donate
+                    Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. Hero Section -->
+    <section id="hero">
+        <video autoplay muted loop id="hero-video"
+            poster="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=2070&auto=format&fit=crop">
+            <source src="https://github.com/farazc60/Project-Images/raw/refs/heads/main/fire.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="container hero-content" data-aos="fade-up">
+            <h1 class="display-3"><span id="typed-hero"></span></h1>
+            <p class="lead">Your trusted partner in disaster preparedness, response, and rebuilding communities for a
+                resilient future.</p>
+            <div>
+                <a href="#about" class="btn btn-premium btn-lg">Learn More</a>
+                <a href="#access-report" class="btn btn-premium-outline btn-lg ms-3">Report Incident</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2B. Access + Reporting Section -->
+    <section id="access-report" class="section-padding section-bg">
+        <div class="container">
+            <div class="section-title text-center" data-aos="fade-up">
+                <p>CITIZEN ACCESS</p>
+                <h2>Login, Signup & Emergency Reporting</h2>
+            </div>
+            <div class="row g-4 align-items-stretch">
+                <div class="col-lg-5" data-aos="fade-right">
+                    <div class="auth-panel">
+                        <div class="auth-header">
+                            <h3>Citizen Access Portal</h3>
+                            <p>Create an account or log in to submit verified incident reports and track your requests.</p>
+                        </div>
+                        <div class="auth-toggle">
+                            <button class="auth-tab active" type="button" data-auth-target="loginFormWrap">Login</button>
+                            <button class="auth-tab" type="button" data-auth-target="signupFormWrap">Signup</button>
+                        </div>
+
+                        <div id="loginFormWrap" class="auth-form-wrap active">
+                            <form id="loginForm" class="row g-3">
+                                <div class="col-12">
+                                    <input type="email" class="form-control" id="loginEmail" placeholder="Email Address" required>
+                                </div>
+                                <div class="col-12">
+                                    <input type="password" class="form-control" id="loginPassword" placeholder="Password" required>
+                                </div>
+                                <div class="col-12 d-grid">
+                                    <button type="submit" class="btn btn-premium">Login Now</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div id="signupFormWrap" class="auth-form-wrap">
+                            <form id="signupForm" class="row g-3">
+                                <div class="col-12">
+                                    <select class="form-control" id="signupRole" required>
+                                        <option value="">Register As</option>
+                                        <option value="Citizen">Citizen</option>
+                                        <option value="Authority">Authority</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <input type="text" class="form-control" id="signupName" placeholder="Full Name" required>
+                                </div>
+                                <div class="col-12">
+                                    <input type="email" class="form-control" id="signupEmail" placeholder="Email Address" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="tel" class="form-control" id="signupPhone" placeholder="Phone Number" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="signupLocation" placeholder="City / Area" required>
+                                </div>
+                                <div class="col-12">
+                                    <input type="password" class="form-control" id="signupPassword" placeholder="Create Password" required>
+                                </div>
+                                <div class="col-12 d-grid">
+                                    <button type="submit" class="btn btn-premium">Create Account</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="portal-status" id="authMessage">Please login or signup to start reporting incidents.</div>
+
+                        <div class="auth-insight-panel">
+                            <div class="insight-head">
+                                <h4>Access Snapshot</h4>
+                                <span class="insight-pill" id="insightRole">Guest</span>
+                            </div>
+
+                            <div class="insight-grid">
+                                <div class="insight-card">
+                                    <span class="insight-label">Account State</span>
+                                    <strong id="accountState">Awaiting Login</strong>
+                                    <p>Login or signup to unlock reporting and authority actions.</p>
+                                </div>
+                                <div class="insight-card">
+                                    <span class="insight-label">Profile Type</span>
+                                    <strong id="profileType">Visitor</strong>
+                                    <p>Citizens can report incidents, authorities can join validation flow.</p>
+                                </div>
+                            </div>
+
+                            <div class="quick-highlights">
+                                <div class="highlight-row">
+                                    <span><i class="fas fa-location-dot"></i> Coverage</span>
+                                    <strong id="coverageArea">Community Wide</strong>
+                                </div>
+                                <div class="highlight-row">
+                                    <span><i class="fas fa-bell"></i> Update Mode</span>
+                                    <strong id="updateMode">General Alerts</strong>
+                                </div>
+                                <div class="highlight-row">
+                                    <span><i class="fas fa-clipboard-list"></i> Report Access</span>
+                                    <strong id="reportAccessState">Locked</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-7" data-aos="fade-left">
+                    <div class="reporting-panel">
+                        <div class="reporting-header">
+                            <div>
+                                <p class="small-label">LIVE REPORTING SYSTEM</p>
+                                <h3>Report any disaster, hazard, or emergency issue</h3>
+                            </div>
+                            <span class="reporting-badge" id="reportingAccess">Login Required</span>
+                        </div>
+
+                        <form id="incidentReportForm" class="row g-3">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" id="incidentTitle" placeholder="Incident Title" required>
+                            </div>
+                            <div class="col-md-6">
+                                <select class="form-control" id="incidentType" required>
+                                    <option value="">Select Incident Type</option>
+                                    <option value="Flood">Flood</option>
+                                    <option value="Fire">Fire</option>
+                                    <option value="Landslide">Landslide</option>
+                                    <option value="Earthquake">Earthquake</option>
+                                    <option value="Road Block">Road Block</option>
+                                    <option value="Medical Emergency">Medical Emergency</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" id="incidentLocation" placeholder="Location / Landmark" required>
+                            </div>
+                            <div class="col-md-6">
+                                <select class="form-control" id="incidentSeverity" required>
+                                    <option value="">Severity Level</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                    <option value="Critical">Critical</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <textarea class="form-control" id="incidentDescription" rows="5" placeholder="Explain what happened, what support is needed, and whether people are in danger." required></textarea>
+                            </div>
+                            <div class="col-12 d-flex flex-wrap gap-3">
+                                <button type="submit" class="btn btn-premium" id="reportSubmitBtn">Submit Report</button>
+                                <button type="reset" class="btn btn-outline-primary">Clear</button>
+                            </div>
+                        </form>
+
+                        <div class="portal-status success-state d-none" id="reportMessage"></div>
+
+                        <div class="recent-reports mt-4">
+                            <div class="recent-reports-head">
+                                <h4>Recent Citizen Reports</h4>
+                                <span id="reportCount">3 Reports</span>
+                            </div>
+                            <div id="reportList">
+                                <div class="report-item">
+                                    <div class="report-meta">
+                                        <span class="severity-chip high">High</span>
+                                        <span>Flood</span>
+                                    </div>
+                                    <h5>Water entered houses near Riverside Colony</h5>
+                                    <p>Residents are asking for evacuation help and dry ration support.</p>
+                                </div>
+                                <div class="report-item">
+                                    <div class="report-meta">
+                                        <span class="severity-chip medium">Medium</span>
+                                        <span>Road Block</span>
+                                    </div>
+                                    <h5>Tree fallen on main road after heavy wind</h5>
+                                    <p>Traffic is stuck and ambulance movement is becoming difficult.</p>
+                                </div>
+                                <div class="report-item">
+                                    <div class="report-meta">
+                                        <span class="severity-chip low">Low</span>
+                                        <span>Medical Emergency</span>
+                                    </div>
+                                    <h5>Need first-aid support at relief camp</h5>
+                                    <p>Minor injuries reported and volunteers need medicine stock.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. About Section -->
+    <section id="about" class="section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
+                    <h2 class="mb-4">Your Shield Against the Storm</h2>
+                    <p class="lead">Aegis is a non-profit organization dedicated to minimizing the impact of disasters
+                        worldwide.</p>
+                    <p>We believe that with proactive planning, rapid response, and community-focused recovery, we can
+                        build a more resilient future for everyone. Our team of experts, volunteers, and partners work
+                        tirelessly to provide support before, during, and after a crisis strikes.</p>
+                    <a href="#" class="btn btn-premium mt-3">Our Story</a>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="about-card">
+                                <div class="icon"><i class="fas fa-hands-helping"></i></div>
+                                <h3>Our Mission</h3>
+                                <p>To save lives, alleviate suffering, and protect human dignity during and after
+                                    emergencies and disasters.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="about-card">
+                                <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                                <h3>Our Vision</h3>
+                                <p>A world where all communities are prepared for, and resilient to, the impacts of
+                                    disasters.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="shape-divider">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"
+                preserveAspectRatio="none">
+                <path
+                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                    class="shape-fill"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- 4. Services Section -->
+    <section id="services" class="section-padding section-bg">
+        <div class="container">
+            <div class="section-title text-center" data-aos="fade-up">
+                <p>WHAT WE DO</p>
+                <h2>Comprehensive Support System</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-card" data-tilt>
+                        <div class="service-img-container">
+                            <div class="service-img"
+                                style="background-image: url('https://images.unsplash.com/photo-1593113630400-ea4288922497?q=80&w=2070&auto=format&fit=crop');">
+                            </div>
+                        </div>
+                        <div class="service-content">
+                            <h4>Emergency Response</h4>
+                            <p>Rapid deployment of search & rescue, medical aid, and essential supplies.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-card" data-tilt>
+                        <div class="service-img-container">
+                            <div class="service-img"
+                                style="background-image: url('https://images.unsplash.com/photo-1615876234886-fd9a39fda97f?q=80&w=2070&auto=format&fit=crop');">
+                            </div>
+                        </div>
+                        <div class="service-content">
+                            <h4>Recovery Programs</h4>
+                            <p>Long-term support for rebuilding homes, infrastructure, and livelihoods.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-card" data-tilt>
+                        <div class="service-img-container">
+                            <div class="service-img"
+                                style="background-image: url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2132&auto=format&fit=crop');">
+                            </div>
+                        </div>
+                        <div class="service-content">
+                            <h4>Training & Drills</h4>
+                            <p>Equipping communities and first responders with critical crisis management skills.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-card" data-tilt>
+                        <div class="service-img-container">
+                            <div class="service-img"
+                                style="background-image: url('https://images.unsplash.com/photo-1521791136064-7986c2920216');">
+                            </div>
+                        </div>
+                        <div class="service-content">
+                            <h4>Awareness Campaigns</h4>
+                            <p>Educating the public on disaster risks and fostering a culture of safety.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4B. Validation + Tracking + Updates -->
+    <section id="coordination" class="section-padding">
+        <div class="container">
+            <div class="section-title text-center" data-aos="fade-up">
+                <p>COORDINATION HUB</p>
+                <h2>Validation, Relief Tracking & Smart Updates</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="coord-card">
+                        <div class="coord-head">
+                            <h3>Admin Validation Queue</h3>
+                            <span class="mini-tag" id="pendingValidationCount">2 Pending</span>
+                        </div>
+                        <p>Key players like ward officers and authorities appear here for validation before they become active responders.</p>
+                        <div id="validationList">
+                            <div class="validation-item">
+                                <div>
+                                    <h5>Rohit Sharma</h5>
+                                    <p>Authority • District Control Room</p>
+                                </div>
+                                <button class="btn btn-sm btn-premium validate-btn" data-name="Rohit Sharma">Validate</button>
+                            </div>
+                            <div class="validation-item">
+                                <div>
+                                    <h5>Anita Verma</h5>
+                                    <p>Authority • Medical Response Unit</p>
+                                </div>
+                                <button class="btn btn-sm btn-premium validate-btn" data-name="Anita Verma">Validate</button>
+                            </div>
+                        </div>
+                        <div class="portal-status d-none" id="validationMessage"></div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="coord-card">
+                        <div class="coord-head">
+                            <h3>Relief Tracking Board</h3>
+                            <span class="mini-tag active-tag">Live</span>
+                        </div>
+                        <div class="tracking-list">
+                            <div class="tracking-item">
+                                <strong>Food Kits</strong>
+                                <span>Ward 12 Relief Camp</span>
+                                <div class="progress"><div class="progress-bar bg-success" style="width: 82%"></div></div>
+                            </div>
+                            <div class="tracking-item">
+                                <strong>Medical Aid</strong>
+                                <span>Riverside Shelter Zone</span>
+                                <div class="progress"><div class="progress-bar bg-warning" style="width: 58%"></div></div>
+                            </div>
+                            <div class="tracking-item">
+                                <strong>Rescue Boats</strong>
+                                <span>Low-Lying Area Sector B</span>
+                                <div class="progress"><div class="progress-bar bg-danger" style="width: 34%"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="coord-card">
+                        <div class="coord-head">
+                            <h3>Location-Based Updates</h3>
+                            <span class="mini-tag info-tag">Filtered</span>
+                        </div>
+                        <form id="updateFilterForm" class="row g-3">
+                            <div class="col-12">
+                                <input type="text" class="form-control" id="updateLocation" placeholder="Enter location e.g. Riverside" />
+                            </div>
+                            <div class="col-12">
+                                <select class="form-control" id="updateEmergencyType">
+                                    <option value="All">All emergency types</option>
+                                    <option value="Flood">Flood</option>
+                                    <option value="Fire">Fire</option>
+                                    <option value="Medical Emergency">Medical Emergency</option>
+                                    <option value="Road Block">Road Block</option>
+                                </select>
+                            </div>
+                            <div class="col-12 d-grid">
+                                <button type="submit" class="btn btn-premium">Get Updates</button>
+                            </div>
+                        </form>
+                        <div class="updates-feed" id="updatesFeed">
+                            <div class="update-card" data-location="Riverside" data-type="Flood">
+                                <span>Riverside • Flood</span>
+                                <p>Evacuation support active and relief vans expected within 25 minutes.</p>
+                            </div>
+                            <div class="update-card" data-location="Central Market" data-type="Road Block">
+                                <span>Central Market • Road Block</span>
+                                <p>Road clearance team deployed. Alternate diversion route shared with traffic police.</p>
+                            </div>
+                            <div class="update-card" data-location="Hill View" data-type="Medical Emergency">
+                                <span>Hill View • Medical Emergency</span>
+                                <p>First-aid unit moved to community school camp. Medicine refill dispatched.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Statistics / Counter Section -->
+    <section id="stats" class="section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0" data-aos="fade-up" data-aos-delay="100">
+                    <div class="counter-box">
+                        <div class="icon"><i class="fas fa-hand-holding-heart"></i></div>
+                        <span class="counter">12,500</span>+
+                        <p>Lives Saved</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0" data-aos="fade-up" data-aos-delay="200">
+                    <div class="counter-box">
+                        <div class="icon"><i class="fas fa-users"></i></div>
+                        <span class="counter">8,200</span>+
+                        <p>Active Volunteers</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0" data-aos="fade-up" data-aos-delay="300">
+                    <div class="counter-box">
+                        <div class="icon"><i class="fas fa-globe"></i></div>
+                        <span class="counter">45</span>
+                        <p>Countries Served</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="counter-box">
+                        <div class="icon"><i class="fas fa-clipboard-check"></i></div>
+                        <span class="counter">320</span>+
+                        <p>Missions Completed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Disaster Alerts / News Ticker -->
+    <div class="news-ticker-container">
+        <div class="ticker-wrap">
+            <div class="ticker-title"><i class="fas fa-exclamation-triangle"></i> LATEST ALERTS</div>
+            <div class="ticker-content">
+                <div class="ticker-move">
+                    <span><i class="fas fa-bolt"></i> Tropical Storm 'Helena' forming in the Atlantic. Coastal regions
+                        advised to monitor updates.</span>
+                    <span><i class="fas fa-bolt"></i> Wildfire warning issued for Northern California. Evacuation orders
+                        may be imminent.</span>
+                    <span><i class="fas fa-bolt"></i> Magnitude 6.8 earthquake strikes near Japan. Tsunami watch in
+                        effect.</span>
+                    <span><i class="fas fa-bolt"></i> Severe flooding in parts of Southeast Asia. Aid teams are being
+                        deployed.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. Gallery / Media Section -->
+    <section id="gallery" class="section-padding">
+        <div class="container">
+            <div class="section-title text-center" data-aos="fade-up">
+                <p>OUR WORK IN ACTION</p>
+                <h2>Moments of Impact</h2>
+            </div>
+            <div class="row g-4" data-masonry='{"percentPosition": true }'>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                    <a href="https://images.unsplash.com/photo-1500673922987-e212871fec22?q=80&w=2070&auto=format&fit=crop"
+                        class="glightbox gallery-item">
+                        <img src="https://images.unsplash.com/photo-1500673922987-e212871fec22?q=80&w=2070&auto=format&fit=crop"
+                            alt="Gallery Image 1" class="img-fluid">
+                        <div class="gallery-overlay"><i class="fas fa-search-plus icon"></i></div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <a href="https://images.unsplash.com/photo-1593113630400-ea4288922497?q=80&w=1974&auto=format&fit=crop"
+                        class="glightbox gallery-item">
+                        <img src="https://images.unsplash.com/photo-1593113630400-ea4288922497?q=80&w=1974&auto=format&fit=crop"
+                            alt="Gallery Image 2" class="img-fluid">
+                        <div class="gallery-overlay"><i class="fas fa-search-plus icon"></i></div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <a href="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=2070&auto=format&fit=crop"
+                        class="glightbox gallery-item">
+                        <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=2070&auto=format&fit=crop"
+                            alt="Gallery Image 3" class="img-fluid">
+                        <div class="gallery-overlay"><i class="fas fa-search-plus icon"></i></div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                    <a href="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1974&auto=format&fit=crop"
+                        class="glightbox gallery-item">
+                        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1974&auto=format&fit=crop"
+                            alt="Gallery Image 4" class="img-fluid">
+                        <div class="gallery-overlay"><i class="fas fa-search-plus icon"></i></div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <a href="https://images.unsplash.com/photo-1500673922987-e212871fec22?q=80&w=2070&auto=format&fit=crop"
+                        class="glightbox gallery-item">
+                        <img src="https://images.unsplash.com/photo-1500673922987-e212871fec22?q=80&w=2070&auto=format&fit=crop"
+                            alt="Gallery Image 5" class="img-fluid">
+                        <div class="gallery-overlay"><i class="fas fa-search-plus icon"></i></div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <a href="#" class="glightbox gallery-item" data-type="video">
+                        <img src="https://images.unsplash.com/photo-1615876234886-fd9a39fda97f?q=80&w=2070&auto=format&fit=crop"
+                            alt="Gallery Video" class="img-fluid">
+                        <div class="gallery-overlay"><i class="fas fa-play icon"></i></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. Resources Section -->
+    <section id="resources" class="section-padding section-bg">
+        <div class="container">
+            <div class="section-title text-center" data-aos="fade-up">
+                <p>KNOWLEDGE IS POWER</p>
+                <h2>Safety Guides & Resources</h2>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8" data-aos="fade-up" data-aos-delay="100">
+                    <div class="accordion" id="resourcesAccordion">
+                        <div class="accordion-item mb-3">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    <i class="fas fa-house-flood-water me-3 text-primary"></i> Flood Safety Guide
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                                data-bs-parent="#resourcesAccordion">
+                                <div class="accordion-body">
+                                    Learn how to prepare for a flood, what to do during a flood (turn around, don't
+                                    drown!), and how to safely clean up afterward. Includes a checklist for your
+                                    emergency kit. <a href="#" class="btn btn-sm btn-outline-primary mt-2">Download
+                                        PDF</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item mb-3">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <i class="fas fa-fire-extinguisher me-3 text-primary"></i> Wildfire Preparedness
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                                data-bs-parent="#resourcesAccordion">
+                                <div class="accordion-body">
+                                    Understand the levels of evacuation warnings, how to create a defensible space
+                                    around your home, and what to include in a "Go Bag" for your family and pets. <a
+                                        href="#" class="btn btn-sm btn-outline-primary mt-2">Download PDF</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    <i class="fas fa-house-chimney-crack me-3 text-primary"></i> Earthquake Safety Tips
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                                data-bs-parent="#resourcesAccordion">
+                                <div class="accordion-body">
+                                    Practice "Drop, Cover, and Hold On." This guide explains what to do before, during,
+                                    and after an earthquake to minimize injury and damage. Includes tips for securing
+                                    heavy furniture. <a href="#" class="btn btn-sm btn-outline-primary mt-2">Download
+                                        PDF</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="shape-divider shape-divider-top">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"
+                preserveAspectRatio="none">
+                <path
+                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                    class="shape-fill"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- 9. Testimonials Section -->
+    <section id="testimonials" class="section-padding">
+        <div class="container">
+            <div class="section-title text-center" data-aos="fade-up">
+                <p>VOICES OF HOPE</p>
+                <h2>What People Are Saying</h2>
+            </div>
+            <div class="swiper testimonials-slider" data-aos="fade-up" data-aos-delay="100">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide h-100">
+                        <div class="testimonial-card">
+                            <p class="quote">"When we lost everything in the hurricane, Aegis was the first on the
+                                scene. They didn't just provide food and shelter; they gave us hope. We're forever
+                                grateful."</p>
+                            <h5 class="name">Ankit</h5>
+                            <span class="position">Hurricane Survivor</span>
+                        </div>
+                    </div>
+                    <div class="swiper-slide h-100">
+                        <div class="testimonial-card">
+                            <p class="quote">"Volunteering with Aegis has been a life-changing experience. The training
+                                is top-notch, and the impact we make on the ground is tangible. It's an honor to be part
+                                of this team."</p>
+                            <h5 class="name">Yogesh</h5>
+                            <span class="position">Community Volunteer</span>
+                        </div>
+                    </div>
+                    <div class="swiper-slide h-100">
+                        <div class="testimonial-card">
+                            <p class="quote">"As a corporate partner, we've seen firsthand how efficiently Aegis uses
+                                its resources. Our donations are making a real, measurable difference in
+                                disaster-stricken areas."</p>
+                            <h5 class="name">Aryan</h5>
+                            <span class="position">CEO, Carter Foundation</span>
+                        </div>
+                    </div>
+                    <div class="swiper-slide h-100">
+                        <div class="testimonial-card">
+                            <p class="quote">"The preparedness workshop held by Aegis in our town was invaluable. We now
+                                have a community-wide emergency plan, and our families feel so much safer."</p>
+                            <h5 class="name">Kishan</h5>
+                            <span class="position">Town Mayor</span>
+                        </div>
+                    </div>
+                    <div class="swiper-slide h-100">
+                        <div class="testimonial-card">
+                            <p class="quote">"Community reporting and fast local coordination helped our area respond much
+                                faster during the emergency. This kind of system really makes a difference."</p>
+                            <h5 class="name">Rishu</h5>
+                            <span class="position">Local Resident</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination mt-4"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. Call-to-Action Section -->
+    <section id="cta" class="section-padding">
+        <div class="container" data-aos="zoom-in">
+            <div class="row justify-content-center">
+                <div class="col-lg-9">
+                    <h2>Join Us in Making a Difference</h2>
+                    <p>Every contribution, whether it's your time or a donation, helps us prepare communities and
+                        provide critical aid when disaster strikes. Be a hero to someone in need.</p>
+                    <a href="#" class="btn btn-premium-outline btn-lg"
+                        style="border-color: var(--accent-color); color: var(--accent-color);">Donate Now</a>
+                    <a href="#" class="btn btn-secondary-premium btn-lg ms-3">Become a Volunteer</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. Blog / News & Updates Section -->
+    <section id="blog" class="section-padding section-bg">
+        <div class="container">
+            <div class="section-title text-center" data-aos="fade-up">
+                <p>STAY INFORMED</p>
+                <h2>News & Updates</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="blog-card">
+                        <div class="blog-img-container">
+                            <img src="https://images.unsplash.com/photo-1500673922987-e212871fec22?q=80&w=2070&auto=format&fit=crop"
+                                class="card-img-top" alt="Blog Post">
+                        </div>
+                        <div class="blog-content">
+                            <p class="blog-meta"><span><i class="far fa-calendar-alt"></i> Aug 15, 2025</span> |
+                                <span><i class="far fa-user"></i> By Jane Doe</span>
+                            </p>
+                            <a href="#" class="blog-title">The Role of Technology in Modern Disaster Response</a>
+                            <p class="mt-2">Drones, AI, and satellite imagery are revolutionizing how we respond to
+                                crises...</p>
+                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="blog-card">
+                        <div class="blog-img-container">
+                            <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2070&auto=format&fit=crop"
+                                class="card-img-top" alt="Blog Post">
+                        </div>
+                        <div class="blog-content">
+                            <p class="blog-meta"><span><i class="far fa-calendar-alt"></i> Aug 10, 2025</span> |
+                                <span><i class="far fa-user"></i> By John Smith</span>
+                            </p>
+                            <a href="#" class="blog-title">Building Resilient Communities: A Step-by-Step Guide</a>
+                            <p class="mt-2">Resilience isn't just about bouncing back; it's about bouncing forward
+                                stronger...</p>
+                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="blog-card">
+                        <div class="blog-img-container">
+                            <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?q=80&w=1974&auto=format&fit=crop"
+                                class="card-img-top" alt="Blog Post">
+                        </div>
+                        <div class="blog-content">
+                            <p class="blog-meta"><span><i class="far fa-calendar-alt"></i> Aug 05, 2025</span> |
+                                <span><i class="far fa-user"></i> By Sarah Lee</span>
+                            </p>
+                            <a href="#" class="blog-title">Volunteer Spotlight: A Story of Courage from the Front
+                                Lines</a>
+                            <p class="mt-2">Meet Mark, a volunteer who spent three weeks providing aid after the recent
+                                floods...</p>
+                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 12. Contact Section -->
+    <section id="contact" class="section-padding">
+        <div class="container">
+            <div class="section-title text-center" data-aos="fade-up">
+                <p>GET IN TOUCH</p>
+                <h2>Contact Us</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4" data-aos="fade-right">
+                    <div class="contact-info">
+                        <h3>Contact Information</h3>
+                        <p>We're here to help. Reach out for assistance, coordination support, partnerships, or any disaster-related inquiries across India.</p>
+                        <div class="info-item">
+                            <div class="icon"><i class="fas fa-map-marker-alt"></i></div><span>Community Disaster Management Portal,<br>New Delhi, India - 110001</span>
+                        </div>
+                        <div class="info-item">
+                            <div class="icon"><i class="fas fa-phone"></i></div><span>+91 11 4100 4500</span>
+                        </div>
+                        <div class="info-item">
+                            <div class="icon"><i class="fas fa-envelope"></i></div><span>support@cdmsindia.org</span>
+                        </div>
+                        <h4 class="mt-4">Emergency Hotline:</h4>
+                        <p class="lead fw-bold">112 (Pan-India, 24/7)</p>
+                    </div>
+                </div>
+                <div class="col-lg-8" data-aos="fade-left">
+                    <div class="contact-form">
+                        <form id="contactForm" class="row g-3">
+                            <div class="col-md-6"><input type="text" class="form-control" placeholder="Your Name"
+                                    required></div>
+                            <div class="col-md-6"><input type="email" class="form-control" placeholder="Your Email"
+                                    required></div>
+                            <div class="col-12"><input type="text" class="form-control" placeholder="Subject" required>
+                            </div>
+                            <div class="col-12"><textarea class="form-control" rows="6" placeholder="Message"
+                                    required></textarea></div>
+                            <div class="col-12"><button type="submit" class="btn btn-premium">Send Message</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5" data-aos="fade-up">
+                <div class="col-12">
+                    <div class="map-container">
+                        <iframe
+                            src="https://maps.google.com/maps?q=India%20Gate%20New%20Delhi&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                            width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5><i class="fas fa-shield-halved"></i> Aegis</h5>
+                    <p>Strength in Crisis, Hope in Recovery. Building a resilient future for communities worldwide.</p>
+                    <div class="social-icons mt-3">
+                        <a href="#"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Get Involved</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Donate</a></li>
+                        <li><a href="#">Volunteer</a></li>
+                        <li><a href="#">Partnerships</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>Subscribe to our Newsletter</h5>
+                    <p>Get the latest updates on our missions and preparedness tips.</p>
+                    <form>
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Your Email">
+                            <button class="btn btn-premium" type="button">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom text-center">
+                <p>© 2025 codewithfaraz. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollTopBtn" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" async></script>
+
+    <!-- Plugin JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>

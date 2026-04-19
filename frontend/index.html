@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Disaster Management System - Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-shield-halved"></i>Community disaster Management System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span></span><span></span><span></span><span></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="report.html">Report</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Resources</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="resources.html">Safety Guides</a></li>
+                            <li><a class="dropdown-item" href="resources.html#blog">Blog & News</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="contact.html">Emergency Contacts</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+                <div class="nav-user-tools ms-lg-3">
+                    <button type="button" class="user-status-badge d-none d-lg-inline-flex account-toggle" id="userStatus">Guest Mode</button>
+                    <div class="account-dropdown d-none" id="accountDropdown">
+                        <div class="account-dropdown-head" id="accountDropdownHead">Quick access</div>
+                        <a href="report.html?auth=login#access-report" class="account-link" id="loginNavLink">Login</a>
+                        <a href="report.html?auth=signup#access-report" class="account-link" id="signupNavLink">Signup</a>
+                        <button type="button" class="btn btn-logout" id="logoutBtn">Logout</button>
+                    </div>
+                </div>
+                <a href="donate.html" class="btn btn-premium d-none d-lg-inline-block ms-lg-3" style="background: var(--accent-color); color: var(--dark-color); border-color: var(--accent-color);">Donate Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero">
+        <video autoplay muted loop id="hero-video" poster="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=2070&auto=format&fit=crop">
+            <source src="https://github.com/farazc60/Project-Images/raw/refs/heads/main/fire.mp4" type="video/mp4">
+        </video>
+        <div class="container hero-content" data-aos="fade-up">
+            <h1 class="display-3"><span id="typed-hero"></span></h1>
+            <p class="lead">A multi-page frontend for preparedness, emergency reporting, relief coordination, and resilient community support.</p>
+            <div>
+                <a href="about.html" class="btn btn-premium btn-lg">Explore Platform</a>
+                <a href="report.html" class="btn btn-premium-outline btn-lg ms-3">Report Incident</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="stats" class="section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0"><div class="counter-box"><div class="icon"><i class="fas fa-hand-holding-heart"></i></div><span class="counter">12,500</span>+<p>Lives Assisted</p></div></div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0"><div class="counter-box"><div class="icon"><i class="fas fa-users"></i></div><span class="counter">8,200</span>+<p>Volunteers Connected</p></div></div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0"><div class="counter-box"><div class="icon"><i class="fas fa-location-dot"></i></div><span class="counter">120</span>+<p>District Updates</p></div></div>
+                <div class="col-lg-3 col-md-6"><div class="counter-box"><div class="icon"><i class="fas fa-clipboard-check"></i></div><span class="counter">320</span>+<p>Missions Completed</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="news-ticker-container">
+        <div class="ticker-wrap">
+            <div class="ticker-title"><i class="fas fa-exclamation-triangle"></i> LATEST ALERTS</div>
+            <div class="ticker-content">
+                <div class="ticker-move">
+                    <span><i class="fas fa-bolt"></i> Flood watch active in low-lying communities. Keep emergency kits ready.</span>
+                    <span><i class="fas fa-bolt"></i> Heatwave advisory issued across several districts. Stay hydrated and indoors.</span>
+                    <span><i class="fas fa-bolt"></i> Road block reports increasing after heavy rain. Use verified alternate routes.</span>
+                    <span><i class="fas fa-bolt"></i> Relief camp updates available in the resources and contact sections.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="section-padding section-bg">
+        <div class="container">
+            <div class="section-title text-center">
+                <p>QUICK ACCESS</p>
+                <h2>Explore the Frontend Structure</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4"><div class="about-card"><div class="icon"><i class="fas fa-circle-info"></i></div><h3>About</h3><p>Project overview, mission, and community testimonials.</p><a href="about.html" class="btn btn-premium mt-3">Open Page</a></div></div>
+                <div class="col-md-4"><div class="about-card"><div class="icon"><i class="fas fa-triangle-exclamation"></i></div><h3>Report</h3><p>Login, signup, authority validation, reporting, and relief tracking.</p><a href="report.html" class="btn btn-premium mt-3">Open Page</a></div></div>
+                <div class="col-md-4"><div class="about-card"><div class="icon"><i class="fas fa-address-book"></i></div><h3>Contact</h3><p>India-specific contact details, map, and emergency hotline access.</p><a href="contact.html" class="btn btn-premium mt-3">Open Page</a></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cta" class="section-padding">
+        <div class="container" data-aos="zoom-in">
+            <div class="row justify-content-center">
+                <div class="col-lg-9">
+                    <h2>Community-Ready, Better Organized</h2>
+                    <p>The homepage is now separated from the rest of the sections so the frontend stays easier to manage, edit, and expand.</p>
+                    <a href="report.html" class="btn btn-premium-outline btn-lg" style="border-color: var(--accent-color); color: var(--accent-color);">Go To Reporting</a>
+                    <a href="services.html" class="btn btn-secondary-premium btn-lg ms-3">View Services</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5><i class="fas fa-shield-halved"></i> CDMS Frontend</h5>
+                    <p>Organized multi-page frontend for community disaster management, reporting, and coordination.</p>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Pages</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Actions</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="report.html">Report</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                        <li><a href="resources.html#blog">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>Newsletter</h5>
+                    <form id="newsletterForm">
+                        <div class="input-group">
+                            <input type="email" class="form-control" id="newsletterEmail" placeholder="Your Email" required>
+                            <button class="btn btn-premium" type="submit">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom text-center"><p>© 2026 Community Disaster Management System. All Rights Reserved.</p></div>
+        </div>
+    </footer>
+
+    <button id="scrollTopBtn" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
