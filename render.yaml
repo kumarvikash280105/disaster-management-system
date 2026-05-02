@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: community-disaster-management-system
+    runtime: node
+    plan: free
+    rootDir: .
+    buildCommand: npm install --prefix backend
+    startCommand: npm --prefix backend start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: MONGODB_URI
+        sync: false
+      - key: CLIENT_URL
+        value: https://community-disaster-management-system.onrender.com
