@@ -1,0 +1,10 @@
+node_modules/
+*.log
+
+backend/.env
+backend/src/oracleJdk-26/
+
+apps/windows/node_modules/
+apps/android/node_modules/
+
+_deploy_backup_20260503/
