@@ -58,6 +58,12 @@ $(document).ready(function () {
   const reportingAccess = document.getElementById('reportingAccess');
   const signupForm = document.getElementById('signupForm');
   const loginForm = document.getElementById('loginForm');
+  const forgotPasswordBtn = document.getElementById('forgotPasswordBtn');
+  const backToLoginBtn = document.getElementById('backToLoginBtn');
+  const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+  const otpVerificationForm = document.getElementById('otpVerificationForm');
+  const demoOtpBox = document.getElementById('demoOtpBox');
+  const demoOtpValue = document.getElementById('demoOtpValue');
   const incidentReportForm = document.getElementById('incidentReportForm');
   const reportMessage = document.getElementById('reportMessage');
   const reportList = document.getElementById('reportList');
@@ -74,13 +80,45 @@ $(document).ready(function () {
   const coverageArea = document.getElementById('coverageArea');
   const updateMode = document.getElementById('updateMode');
   const reportAccessState = document.getElementById('reportAccessState');
+  let pendingResetOtp = '';
+  let pendingResetIdentity = '';
 
   function getCurrentUser() {
     return JSON.parse(localStorage.getItem('cdmsCurrentUser') || 'null');
   }
 
+  function getRegisteredUser() {
+    return JSON.parse(localStorage.getItem('cdmsRegisteredUser') || 'null');
+  }
+
   function setCurrentUser(user) {
     localStorage.setItem('cdmsCurrentUser', JSON.stringify(user));
+  }
+
+  function showAuthPanel(target) {
+    authTabs.forEach((btn) => {
+      const isSelected = btn.dataset.authTarget === target;
+      btn.classList.toggle('active', isSelected);
+    });
+    authForms.forEach((form) => form.classList.remove('active'));
+    const panel = document.getElementById(target);
+    if (panel) panel.classList.add('active');
+  }
+
+  function openForgotPassword() {
+    showAuthPanel('forgotPasswordWrap');
+    accountState.textContent = 'Password Recovery';
+    profileType.textContent = 'OTP Verification';
+    authMessage.textContent = 'Enter your registered email or phone number to receive a demo OTP.';
+    authMessage.classList.remove('success-state');
+  }
+
+  function openLoginPanel() {
+    showAuthPanel('loginFormWrap');
+    if (!getCurrentUser()) {
+      accountState.textContent = 'Awaiting Login';
+      profileType.textContent = 'Visitor';
+    }
   }
 
   function updateAccessState() {
@@ -115,10 +153,7 @@ $(document).ready(function () {
   authTabs.forEach((tab) => {
     tab.addEventListener('click', function () {
       const target = this.dataset.authTarget;
-      authTabs.forEach((btn) => btn.classList.remove('active'));
-      authForms.forEach((form) => form.classList.remove('active'));
-      this.classList.add('active');
-      document.getElementById(target).classList.add('active');
+      showAuthPanel(target);
       if (target === 'signupFormWrap') {
         accountState.textContent = 'Creating Account';
         profileType.textContent = 'New User';
@@ -138,9 +173,10 @@ $(document).ready(function () {
         email: $('#signupEmail').val().trim(),
         phone: $('#signupPhone').val().trim(),
         location: $('#signupLocation').val().trim(),
+        password: $('#signupPassword').val(),
       };
 
-      if (!user.name || !user.email || !user.role) return;
+      if (!user.name || !user.email || !user.role || !user.password) return;
       localStorage.setItem('cdmsRegisteredUser', JSON.stringify(user));
       setCurrentUser(user);
       signupForm.reset();
@@ -165,8 +201,9 @@ $(document).ready(function () {
   if (loginForm) {
     loginForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      const savedUser = JSON.parse(localStorage.getItem('cdmsRegisteredUser') || 'null');
-      const email = $('#loginEmail').val().trim();
+      const savedUser = getRegisteredUser();
+      const identity = $('#loginEmail').val().trim();
+      const password = $('#loginPassword').val();
 
       if (!savedUser) {
         authMessage.textContent = 'No account found yet. Please signup first.';
@@ -174,8 +211,17 @@ $(document).ready(function () {
         return;
       }
 
-      if (savedUser.email !== email) {
-        authMessage.textContent = 'Email not matched. Please use the registered email.';
+      const identityMatched =
+        savedUser.email === identity || savedUser.phone === identity;
+
+      if (!identityMatched) {
+        authMessage.textContent = 'Email or phone number not matched. Please use registered details.';
+        authMessage.classList.remove('success-state');
+        return;
+      }
+
+      if (savedUser.password !== password) {
+        authMessage.textContent = 'Password not matched. Use Forgot Password to reset with demo OTP.';
         authMessage.classList.remove('success-state');
         return;
       }
@@ -183,6 +229,103 @@ $(document).ready(function () {
       setCurrentUser(savedUser);
       loginForm.reset();
       updateAccessState();
+    });
+  }
+
+  if (forgotPasswordBtn) {
+    forgotPasswordBtn.addEventListener('click', openForgotPassword);
+  }
+
+  if (backToLoginBtn) {
+    backToLoginBtn.addEventListener('click', function () {
+      pendingResetOtp = '';
+      pendingResetIdentity = '';
+      demoOtpBox.classList.add('d-none');
+      otpVerificationForm.classList.add('d-none');
+      forgotPasswordForm.reset();
+      otpVerificationForm.reset();
+      openLoginPanel();
+      authMessage.textContent = 'Please login or signup to start reporting incidents.';
+      authMessage.classList.remove('success-state');
+    });
+  }
+
+  if (forgotPasswordForm) {
+    forgotPasswordForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const savedUser = getRegisteredUser();
+      const identity = $('#forgotIdentity').val().trim();
+
+      if (!savedUser) {
+        authMessage.textContent = 'No registered account found. Please signup first.';
+        authMessage.classList.remove('success-state');
+        return;
+      }
+
+      const identityMatched =
+        savedUser.email === identity || savedUser.phone === identity;
+
+      if (!identityMatched) {
+        authMessage.textContent = 'Entered email or phone number is not registered.';
+        authMessage.classList.remove('success-state');
+        return;
+      }
+
+      pendingResetIdentity = identity;
+      pendingResetOtp = String(Math.floor(100000 + Math.random() * 900000));
+      demoOtpValue.textContent = pendingResetOtp;
+      demoOtpBox.classList.remove('d-none');
+      otpVerificationForm.classList.remove('d-none');
+      authMessage.textContent = 'Demo OTP generated successfully. Enter OTP and set your new password.';
+      authMessage.classList.add('success-state');
+    });
+  }
+
+  if (otpVerificationForm) {
+    otpVerificationForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const savedUser = getRegisteredUser();
+      const enteredOtp = $('#otpCode').val().trim();
+      const newPassword = $('#newPassword').val();
+      const confirmPassword = $('#confirmPassword').val();
+
+      if (!savedUser || !pendingResetOtp || !pendingResetIdentity) {
+        authMessage.textContent = 'Please generate a demo OTP first.';
+        authMessage.classList.remove('success-state');
+        return;
+      }
+
+      if (enteredOtp !== pendingResetOtp) {
+        authMessage.textContent = 'Invalid OTP. Please enter the demo OTP shown below.';
+        authMessage.classList.remove('success-state');
+        return;
+      }
+
+      if (newPassword.length < 4) {
+        authMessage.textContent = 'New password must be at least 4 characters long.';
+        authMessage.classList.remove('success-state');
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        authMessage.textContent = 'New password and confirm password do not match.';
+        authMessage.classList.remove('success-state');
+        return;
+      }
+
+      const updatedUser = { ...savedUser, password: newPassword };
+      localStorage.setItem('cdmsRegisteredUser', JSON.stringify(updatedUser));
+      setCurrentUser(updatedUser);
+      pendingResetOtp = '';
+      pendingResetIdentity = '';
+      forgotPasswordForm.reset();
+      otpVerificationForm.reset();
+      demoOtpBox.classList.add('d-none');
+      otpVerificationForm.classList.add('d-none');
+      openLoginPanel();
+      updateAccessState();
+      authMessage.textContent = 'Password reset successful. You are now logged in with the new password.';
+      authMessage.classList.add('success-state');
     });
   }
 

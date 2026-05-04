@@ -113,15 +113,52 @@
                         <div id="loginFormWrap" class="auth-form-wrap active">
                             <form id="loginForm" class="row g-3">
                                 <div class="col-12">
-                                    <input type="email" class="form-control" id="loginEmail" placeholder="Email Address" required>
+                                    <input type="text" class="form-control" id="loginEmail" placeholder="Email or Phone Number" required>
                                 </div>
                                 <div class="col-12">
                                     <input type="password" class="form-control" id="loginPassword" placeholder="Password" required>
+                                </div>
+                                <div class="col-12 auth-utility-row">
+                                    <button type="button" class="forgot-link" id="forgotPasswordBtn">Forgot Password?</button>
                                 </div>
                                 <div class="col-12 d-grid">
                                     <button type="submit" class="btn btn-premium">Login Now</button>
                                 </div>
                             </form>
+                        </div>
+
+                        <div id="forgotPasswordWrap" class="auth-form-wrap">
+                            <form id="forgotPasswordForm" class="row g-3">
+                                <div class="col-12">
+                                    <input type="text" class="form-control" id="forgotIdentity" placeholder="Registered email or phone number" required>
+                                </div>
+                                <div class="col-12 d-grid">
+                                    <button type="submit" class="btn btn-premium">Send Demo OTP</button>
+                                </div>
+                            </form>
+
+                            <form id="otpVerificationForm" class="row g-3 otp-form d-none">
+                                <div class="col-12">
+                                    <input type="text" class="form-control" id="otpCode" placeholder="Enter demo OTP" inputmode="numeric" maxlength="6" required>
+                                </div>
+                                <div class="col-12">
+                                    <input type="password" class="form-control" id="newPassword" placeholder="Enter new password" required>
+                                </div>
+                                <div class="col-12">
+                                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm new password" required>
+                                </div>
+                                <div class="col-12 d-grid">
+                                    <button type="submit" class="btn btn-premium">Verify OTP & Reset Password</button>
+                                </div>
+                            </form>
+
+                            <div class="demo-otp-box d-none" id="demoOtpBox">
+                                Demo OTP: <strong id="demoOtpValue">000000</strong>
+                            </div>
+
+                            <div class="auth-utility-row mt-3">
+                                <button type="button" class="forgot-link" id="backToLoginBtn">Back to Login</button>
+                            </div>
                         </div>
 
                         <div id="signupFormWrap" class="auth-form-wrap">

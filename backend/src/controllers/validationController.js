@@ -2,6 +2,14 @@ const User = require('../models/User');
 
 async function getPendingAuthorities(req, res) {
   try {
+    const { adminId } = req.query;
+    if (adminId) {
+      const admin = await User.findById(adminId).select('role');
+      if (!admin || admin.role !== 'Admin') {
+        return res.status(403).json({ message: 'Only admin can view the validation queue.' });
+      }
+    }
+
     const pendingAuthorities = await User.find({
       role: 'Authority',
       status: 'pending',
@@ -18,6 +26,16 @@ async function getPendingAuthorities(req, res) {
 async function approveAuthority(req, res) {
   try {
     const { id } = req.params;
+    const { adminId } = req.body;
+
+    if (!adminId) {
+      return res.status(400).json({ message: 'Admin identity is required.' });
+    }
+
+    const admin = await User.findById(adminId).select('role');
+    if (!admin || admin.role !== 'Admin') {
+      return res.status(403).json({ message: 'Only admin can approve authority profiles.' });
+    }
 
     const user = await User.findByIdAndUpdate(
       id,

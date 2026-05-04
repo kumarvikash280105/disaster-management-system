@@ -14,6 +14,10 @@ async function signup(req, res) {
       return res.status(400).json({ message: 'All signup fields are required.' });
     }
 
+    if (!['Citizen', 'Authority'].includes(role)) {
+      return res.status(400).json({ message: 'Public signup is allowed only for user or authority accounts.' });
+    }
+
     if (!emailRegex.test(normalizedEmail)) {
       return res.status(400).json({ message: 'Please enter a valid email address.' });
     }
@@ -53,7 +57,7 @@ async function signup(req, res) {
       message:
         role === 'Authority'
           ? 'Authority account created and sent for admin validation.'
-          : 'Account created successfully.',
+          : 'User account created successfully.',
       user: {
         id: user._id,
         role: user.role,
@@ -107,7 +111,9 @@ async function login(req, res) {
       message:
         user.status === 'pending'
           ? 'Logged in. Your authority profile is awaiting admin validation.'
-          : 'Login successful.',
+          : user.role === 'Admin'
+            ? 'Admin login successful.'
+            : 'User login successful.',
       user: {
         id: user._id,
         role: user.role,

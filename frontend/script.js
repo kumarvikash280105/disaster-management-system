@@ -8,8 +8,16 @@ $(document).ready(function () {
 
   const authTabs = document.querySelectorAll('.auth-tab');
   const authForms = document.querySelectorAll('.auth-form-wrap');
-  const passwordToggles = document.querySelectorAll('.password-toggle');
+  const authSwitchLinks = document.querySelectorAll('.auth-switch-link');
   const authMessage = document.getElementById('authMessage');
+  const openAuthModal = document.getElementById('openAuthModal');
+  const openAdminModal = document.getElementById('openAdminModal');
+  const closeAuthModal = document.getElementById('closeAuthModal');
+  const authModalShell = document.getElementById('authModalShell');
+  const authModalBackdrop = document.getElementById('authModalBackdrop');
+  const authPopupTriggers = document.querySelectorAll('.auth-popup-trigger');
+  const loginModeButtons = document.querySelectorAll('.login-mode-btn');
+  const adminLoginHint = document.getElementById('adminLoginHint');
   const userStatus = document.getElementById('userStatus');
   const accountDropdown = document.getElementById('accountDropdown');
   const accountDropdownHead = document.getElementById('accountDropdownHead');
@@ -19,11 +27,21 @@ $(document).ready(function () {
   const reportingAccess = document.getElementById('reportingAccess');
   const signupForm = document.getElementById('signupForm');
   const loginForm = document.getElementById('loginForm');
+  const forgotPasswordBtn = document.getElementById('forgotPasswordBtn');
+  const backToLoginBtn = document.getElementById('backToLoginBtn');
+  const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+  const otpVerificationForm = document.getElementById('otpVerificationForm');
+  const demoOtpBox = document.getElementById('demoOtpBox');
+  const demoOtpValue = document.getElementById('demoOtpValue');
   const incidentReportForm = document.getElementById('incidentReportForm');
   const reportMessage = document.getElementById('reportMessage');
   const reportList = document.getElementById('reportList');
   const reportCount = document.getElementById('reportCount');
   const reportSubmitBtn = document.getElementById('reportSubmitBtn');
+  const adminWorkbench = document.getElementById('adminWorkbench');
+  const adminIncidentList = document.getElementById('adminIncidentList');
+  const adminIncidentMessage = document.getElementById('adminIncidentMessage');
+  const adminIncidentCount = document.getElementById('adminIncidentCount');
   const pendingValidationCount = document.getElementById('pendingValidationCount');
   const validationMessage = document.getElementById('validationMessage');
   const validationList = document.getElementById('validationList');
@@ -45,6 +63,12 @@ $(document).ready(function () {
   const totalRaised = document.getElementById('totalRaised');
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^\d{10}$/;
+  const demoUsersKey = 'cdmsDemoUsers';
+  const demoIncidentsKey = 'cdmsDemoIncidents';
+  const demoSeededKey = 'cdmsDemoSeeded';
+  let pendingResetOtp = '';
+  let pendingResetIdentifier = '';
+  let selectedLoginMode = 'user';
 
   function getCurrentUser() {
     try {
@@ -62,12 +86,249 @@ $(document).ready(function () {
     localStorage.removeItem(storageKey);
   }
 
+  function getDemoUsers() {
+    try {
+      return JSON.parse(localStorage.getItem(demoUsersKey) || '[]');
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function saveDemoUsers(users) {
+    localStorage.setItem(demoUsersKey, JSON.stringify(users));
+  }
+
+  function getDemoIncidents() {
+    try {
+      return JSON.parse(localStorage.getItem(demoIncidentsKey) || '[]');
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function saveDemoIncidents(incidents) {
+    localStorage.setItem(demoIncidentsKey, JSON.stringify(incidents));
+  }
+
+  function createDemoId(prefix) {
+    return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+  }
+
+  function normalizeDemoUser(user) {
+    const resolvedId = user.id || user._id || createDemoId('user');
+    return {
+      ...user,
+      id: resolvedId,
+      _id: resolvedId,
+    };
+  }
+
+  function findDemoUser(identifier) {
+    const normalizedValue = (identifier || '').trim().toLowerCase();
+    const normalizedPhone = normalizePhone(identifier);
+
+    return getDemoUsers().find((user) => {
+      const emailMatch = (user.email || '').toLowerCase() === normalizedValue;
+      const phoneMatch = normalizePhone(user.phone) === normalizedPhone;
+      return emailMatch || phoneMatch;
+    });
+  }
+
+  function upsertDemoUser(user) {
+    const normalizedUser = normalizeDemoUser(user);
+    const users = getDemoUsers();
+    const index = users.findIndex(
+      (entry) =>
+        entry.email === normalizedUser.email ||
+        entry.phone === normalizedUser.phone ||
+        entry.id === normalizedUser.id ||
+        entry._id === normalizedUser._id
+    );
+    if (index >= 0) {
+      users[index] = { ...users[index], ...normalizedUser };
+    } else {
+      users.push(normalizedUser);
+    }
+    saveDemoUsers(users);
+    return normalizedUser;
+  }
+
+  function ensureDemoSeedData() {
+    if (localStorage.getItem(demoSeededKey) === 'true') {
+      return;
+    }
+
+    const adminUser = normalizeDemoUser({
+      role: 'Admin',
+      name: 'System Admin',
+      email: 'admin@cdms.in',
+      phone: '9999999999',
+      location: 'Central Command',
+      password: 'admin123',
+      status: 'approved',
+    });
+
+    const demoCitizen = normalizeDemoUser({
+      role: 'Citizen',
+      name: 'Demo User',
+      email: 'user@cdms.in',
+      phone: '9876543210',
+      location: 'Riverside',
+      password: 'user123',
+      status: 'approved',
+    });
+
+    const demoAuthority = normalizeDemoUser({
+      role: 'Authority',
+      name: 'Relief Officer',
+      email: 'authority@cdms.in',
+      phone: '9876501234',
+      location: 'District Control Room',
+      password: 'authority123',
+      status: 'pending',
+    });
+
+    saveDemoUsers([adminUser, demoCitizen, demoAuthority]);
+
+    saveDemoIncidents([
+      {
+        _id: createDemoId('incident'),
+        title: 'Water entered houses near Riverside Colony',
+        type: 'Flood',
+        location: 'Riverside Colony',
+        severity: 'High',
+        description: 'Residents are asking for evacuation help and dry ration support.',
+        status: 'Approved',
+        approvalStatus: 'approved',
+        progressPercent: 55,
+        adminNote: 'Relief team dispatched and evacuation vans are on the way.',
+        reportedBy: demoCitizen.id,
+        reporterName: demoCitizen.name,
+        reporterRole: demoCitizen.role,
+        updatedByAdminName: adminUser.name,
+        createdAt: new Date().toISOString(),
+      },
+      {
+        _id: createDemoId('incident'),
+        title: 'Need first-aid support at relief camp',
+        type: 'Medical Emergency',
+        location: 'Hill View',
+        severity: 'Low',
+        description: 'Minor injuries reported and volunteers need medicine stock.',
+        status: 'Submitted',
+        approvalStatus: 'pending',
+        progressPercent: 15,
+        adminNote: 'Awaiting admin review and medical team assignment.',
+        reportedBy: demoCitizen.id,
+        reporterName: demoCitizen.name,
+        reporterRole: demoCitizen.role,
+        updatedByAdminName: '',
+        createdAt: new Date().toISOString(),
+      },
+    ]);
+
+    localStorage.setItem(demoSeededKey, 'true');
+  }
+
+  function listDemoIncidentsForViewer(currentUser) {
+    const incidents = getDemoIncidents().sort(
+      (a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
+    );
+
+    if (!currentUser) {
+      return incidents.slice(0, 20);
+    }
+
+    if (currentUser.role === 'Admin') {
+      return incidents;
+    }
+
+    return incidents.filter((incident) => incident.reportedBy === currentUser.id);
+  }
+
+  function createDemoIncident(payload, currentUser) {
+    const incidents = getDemoIncidents();
+    const incident = {
+      _id: createDemoId('incident'),
+      title: payload.title,
+      type: payload.type,
+      location: payload.location,
+      severity: payload.severity,
+      description: payload.description,
+      status: 'Submitted',
+      approvalStatus: 'pending',
+      progressPercent: 10,
+      adminNote: 'Submitted by user and waiting for admin review.',
+      reportedBy: currentUser.id,
+      reporterName: currentUser.name,
+      reporterRole: currentUser.role,
+      updatedByAdminName: '',
+      createdAt: new Date().toISOString(),
+    };
+
+    incidents.unshift(incident);
+    saveDemoIncidents(incidents);
+    return incident;
+  }
+
+  function approveDemoAuthority(authorityId) {
+    const users = getDemoUsers();
+    const index = users.findIndex((user) => user.id === authorityId || user._id === authorityId);
+    if (index === -1) {
+      throw new Error('Authority profile not found.');
+    }
+
+    users[index] = { ...users[index], status: 'approved' };
+    saveDemoUsers(users);
+    return users[index];
+  }
+
+  function updateDemoIncident(incidentId, payload, adminUser) {
+    const incidents = getDemoIncidents();
+    const index = incidents.findIndex((incident) => incident._id === incidentId);
+    if (index === -1) {
+      throw new Error('Incident not found.');
+    }
+
+    incidents[index] = {
+      ...incidents[index],
+      approvalStatus: payload.approvalStatus,
+      status: payload.status,
+      progressPercent: Number(payload.progressPercent),
+      adminNote: payload.adminNote.trim(),
+      updatedByAdminName: adminUser.name,
+    };
+    saveDemoIncidents(incidents);
+    return incidents[index];
+  }
+
   function formatCurrency(amount) {
     return `INR ${Number(amount || 0).toLocaleString('en-IN')}`;
   }
 
+  function getRoleLabel(role) {
+    if (role === 'Citizen') return 'User';
+    return role || 'Guest';
+  }
+
   function normalizePhone(value) {
     return (value || '').replace(/\D/g, '');
+  }
+
+  function limitPhoneLikeInput(input) {
+    if (!input) return;
+
+    input.addEventListener('input', function () {
+      const rawValue = this.value || '';
+      const looksLikePhone = /^[\d\s()+-]+$/.test(rawValue);
+
+      if (!looksLikePhone) {
+        return;
+      }
+
+      const digitsOnly = normalizePhone(rawValue).slice(0, 10);
+      this.value = digitsOnly;
+    });
   }
 
   function showStatus(element, message, isSuccess = true) {
@@ -75,6 +336,78 @@ $(document).ready(function () {
     element.textContent = message;
     element.classList.remove('d-none', 'success-state', 'error-state');
     element.classList.add(isSuccess ? 'success-state' : 'error-state');
+  }
+
+  function setLoginMode(mode = 'user') {
+    selectedLoginMode = mode === 'admin' ? 'admin' : 'user';
+    loginModeButtons.forEach((button) => {
+      button.classList.toggle('active', button.dataset.loginMode === selectedLoginMode);
+    });
+
+    if (adminLoginHint) {
+      adminLoginHint.classList.toggle('d-none', selectedLoginMode !== 'admin');
+    }
+
+    if (selectedLoginMode === 'admin') {
+      $('#loginIdentifier').attr('placeholder', 'Enter admin email');
+      $('#loginIdentifier').val('admin@cdms.in');
+      $('#loginPassword').val('admin123');
+    } else {
+      $('#loginIdentifier').attr('placeholder', 'Enter your email or 10-digit phone number');
+      $('#loginIdentifier').val('');
+      $('#loginPassword').val('');
+    }
+  }
+
+  function switchAuthTab(target) {
+    authTabs.forEach((button) => button.classList.toggle('active', button.dataset.authTarget === target));
+    authForms.forEach((form) => form.classList.remove('active'));
+    const targetForm = document.getElementById(target);
+    if (targetForm) {
+      targetForm.classList.add('active');
+    }
+  }
+
+  function resetForgotPasswordState() {
+    pendingResetOtp = '';
+    pendingResetIdentifier = '';
+    if (demoOtpBox) demoOtpBox.classList.add('d-none');
+    if (otpVerificationForm) {
+      otpVerificationForm.classList.add('d-none');
+      otpVerificationForm.reset();
+    }
+    if (forgotPasswordForm) {
+      forgotPasswordForm.reset();
+    }
+  }
+
+  function openForgotPasswordPanel() {
+    switchAuthTab('forgotPasswordWrap');
+    if (authMessage) {
+      showStatus(authMessage, 'Registered email ya phone number dalo. Demo OTP yahin show hoga.', true);
+    }
+  }
+
+  function showAuthModal(target = 'loginFormWrap') {
+    if (!authModalShell) return;
+    authModalShell.classList.remove('d-none');
+    document.body.classList.add('modal-open');
+    setTimeout(() => {
+      if (target !== 'forgotPasswordWrap') {
+        resetForgotPasswordState();
+      }
+      switchAuthTab(target);
+      if (target === 'loginFormWrap') {
+        setLoginMode(selectedLoginMode);
+      }
+    }, 0);
+  }
+
+  function hideAuthModal() {
+    if (!authModalShell) return;
+    authModalShell.classList.add('d-none');
+    document.body.classList.remove('modal-open');
+    resetForgotPasswordState();
   }
 
   async function apiRequest(endpoint, options = {}) {
@@ -96,12 +429,14 @@ $(document).ready(function () {
 
   function canSubmitReports(user) {
     if (!user) return false;
+    if (user.role === 'Admin') return false;
     if (user.role === 'Citizen') return true;
     return user.status === 'approved';
   }
 
   function updateAccessState() {
     const currentUser = getCurrentUser();
+    const isAdmin = currentUser?.role === 'Admin';
 
     if (userStatus) {
       userStatus.textContent = currentUser
@@ -129,38 +464,59 @@ $(document).ready(function () {
       accountDropdown.classList.add('d-none');
     }
 
+    if (adminWorkbench) {
+      adminWorkbench.classList.toggle('d-none', !isAdmin);
+    }
+
     if (!authMessage) return;
 
     if (currentUser) {
       const reportingEnabled = canSubmitReports(currentUser);
-      authMessage.textContent = reportingEnabled
-        ? `Logged in as ${currentUser.name}. You can now submit incident reports.`
-        : `Logged in as ${currentUser.name}. Your profile is awaiting validation before operational access.`;
+      authMessage.textContent = isAdmin
+        ? `Logged in as ${currentUser.name}. Admin workbench unlocked for approvals and progress updates.`
+        : reportingEnabled
+          ? `Logged in as ${currentUser.name}. You can now submit incident reports.`
+          : `Logged in as ${currentUser.name}. Your profile is awaiting validation before operational access.`;
       authMessage.classList.add('success-state');
 
       if (reportingAccess) {
-        reportingAccess.textContent = reportingEnabled
+        reportingAccess.textContent = isAdmin
+          ? 'Admin Oversight'
+          : reportingEnabled
           ? 'Reporting Enabled'
           : 'Validation Pending';
       }
       if (reportSubmitBtn) {
-        reportSubmitBtn.disabled = !reportingEnabled;
-        reportSubmitBtn.textContent = reportingEnabled
+        reportSubmitBtn.disabled = isAdmin || !reportingEnabled;
+        reportSubmitBtn.textContent = isAdmin
+          ? 'Admin Cannot Submit User Report'
+          : reportingEnabled
           ? 'Submit Report'
           : 'Awaiting Validation';
       }
-      if (insightRole) insightRole.textContent = currentUser.role || 'Citizen';
+      if (insightRole) insightRole.textContent = getRoleLabel(currentUser.role);
       if (accountState) {
-        accountState.textContent = reportingEnabled ? 'Access Granted' : 'Pending Approval';
+        accountState.textContent = isAdmin
+          ? 'Admin Control'
+          : reportingEnabled
+            ? 'Access Granted'
+            : 'Pending Approval';
       }
-      if (profileType) profileType.textContent = currentUser.role || 'Citizen';
+      if (profileType) profileType.textContent = getRoleLabel(currentUser.role);
       if (coverageArea) coverageArea.textContent = currentUser.location || 'Assigned Area';
       if (updateMode) {
-        updateMode.textContent =
-          currentUser.role === 'Authority' ? 'Authority Alerts' : 'Citizen Alerts';
+        updateMode.textContent = isAdmin
+          ? 'Admin Alerts'
+          : currentUser.role === 'Authority'
+            ? 'Authority Alerts'
+            : 'User Alerts';
       }
       if (reportAccessState) {
-        reportAccessState.textContent = reportingEnabled ? 'Open' : 'Restricted';
+        reportAccessState.textContent = isAdmin
+          ? 'Admin Review'
+          : reportingEnabled
+            ? 'Open'
+            : 'Restricted';
       }
     } else {
       authMessage.textContent = 'Please login or signup to start reporting incidents.';
@@ -187,9 +543,74 @@ $(document).ready(function () {
           <span class="severity-chip ${incident.severity.toLowerCase()}">${incident.severity}</span>
           <span>${incident.type}</span>
           <span>Reported by ${incident.reporterName}</span>
+          <span>${incident.approvalStatus || 'pending'}</span>
         </div>
         <h5>${incident.title} - ${incident.location}</h5>
         <p>${incident.description}</p>
+        <p><strong>Status:</strong> ${incident.status || 'Submitted'} • <strong>Progress:</strong> ${incident.progressPercent ?? 0}%</p>
+        ${incident.adminNote ? `<p><strong>Admin Note:</strong> ${incident.adminNote}</p>` : ''}
+      </div>
+    `;
+  }
+
+  function renderAdminIncidentCard(incident) {
+    const selectedApproval = incident.approvalStatus || 'pending';
+    const selectedStatus = incident.status || 'Submitted';
+    const progress = Number(incident.progressPercent ?? 0);
+
+    return `
+      <div class="admin-incident-card" data-incident-id="${incident._id}">
+        <div class="admin-incident-top">
+          <div>
+            <h4>${incident.title}</h4>
+            <p>${incident.description}</p>
+          </div>
+          <span class="severity-chip ${incident.severity.toLowerCase()}">${incident.severity}</span>
+        </div>
+        <div class="admin-incident-meta">
+          <span class="admin-meta-chip">${incident.type}</span>
+          <span class="admin-meta-chip">${incident.location}</span>
+          <span class="admin-meta-chip">By ${incident.reporterName}</span>
+          <span class="admin-meta-chip">${getRoleLabel(incident.reporterRole)}</span>
+        </div>
+        <div class="admin-incident-grid">
+          <div>
+            <label class="auth-label">Approval</label>
+            <select class="form-control admin-approval-select">
+              <option value="pending" ${selectedApproval === 'pending' ? 'selected' : ''}>Pending</option>
+              <option value="approved" ${selectedApproval === 'approved' ? 'selected' : ''}>Approved</option>
+              <option value="rejected" ${selectedApproval === 'rejected' ? 'selected' : ''}>Rejected</option>
+            </select>
+          </div>
+          <div>
+            <label class="auth-label">Progress Status</label>
+            <select class="form-control admin-status-select">
+              <option value="Submitted" ${selectedStatus === 'Submitted' ? 'selected' : ''}>Submitted</option>
+              <option value="Approved" ${selectedStatus === 'Approved' ? 'selected' : ''}>Approved</option>
+              <option value="In Progress" ${selectedStatus === 'In Progress' ? 'selected' : ''}>In Progress</option>
+              <option value="Resolved" ${selectedStatus === 'Resolved' ? 'selected' : ''}>Resolved</option>
+              <option value="Rejected" ${selectedStatus === 'Rejected' ? 'selected' : ''}>Rejected</option>
+            </select>
+          </div>
+          <div>
+            <label class="auth-label">Progress %</label>
+            <input type="number" class="form-control admin-progress-input" min="0" max="100" value="${progress}">
+          </div>
+          <div>
+            <label class="auth-label">Admin Note</label>
+            <textarea class="form-control admin-note-input" placeholder="Write admin action, approval reason, or next step">${incident.adminNote || ''}</textarea>
+          </div>
+        </div>
+        <div class="admin-progress-line">
+          <div class="progress"><div class="progress-bar bg-success" style="width: ${progress}%"></div></div>
+          <div class="admin-progress-copy">
+            <span>Current progress</span>
+            <strong>${progress}%</strong>
+          </div>
+        </div>
+        <div class="d-grid mt-3">
+          <button type="button" class="btn btn-premium admin-save-incident-btn">Save Approval & Progress</button>
+        </div>
       </div>
     `;
   }
@@ -239,14 +660,20 @@ $(document).ready(function () {
     if (!reportList) return;
 
     try {
-      const data = await apiRequest('/incidents');
+      const currentUser = getCurrentUser();
+      const query = currentUser ? `?viewerId=${encodeURIComponent(currentUser.id)}` : '';
+      const data = await apiRequest(`/incidents${query}`);
       reportList.innerHTML = data.incidents.map(renderIncidentCard).join('');
       if (reportCount) {
         reportCount.textContent = `${data.incidents.length} Reports`;
       }
     } catch (error) {
-      reportList.innerHTML = '<div class="report-item"><p>Unable to load reports right now.</p></div>';
-      if (reportCount) reportCount.textContent = 'Unavailable';
+      const currentUser = getCurrentUser();
+      const incidents = listDemoIncidentsForViewer(currentUser);
+      reportList.innerHTML = incidents.length
+        ? incidents.map(renderIncidentCard).join('')
+        : '<div class="report-item"><p>No reports available yet.</p></div>';
+      if (reportCount) reportCount.textContent = `${incidents.length} Reports`;
     }
   }
 
@@ -254,7 +681,9 @@ $(document).ready(function () {
     if (!validationList) return;
 
     try {
-      const data = await apiRequest('/validations');
+      const currentUser = getCurrentUser();
+      const query = currentUser?.role === 'Admin' ? `?adminId=${encodeURIComponent(currentUser.id)}` : '';
+      const data = await apiRequest(`/validations${query}`);
       validationList.innerHTML = data.pendingAuthorities.length
         ? data.pendingAuthorities.map(renderValidationCard).join('')
         : '<div class="report-item"><p>No pending authority validations.</p></div>';
@@ -262,8 +691,46 @@ $(document).ready(function () {
         pendingValidationCount.textContent = `${data.pendingAuthorities.length} Pending`;
       }
     } catch (error) {
-      validationList.innerHTML = '<div class="report-item"><p>Validation queue unavailable.</p></div>';
-      if (pendingValidationCount) pendingValidationCount.textContent = 'Unavailable';
+      const currentUser = getCurrentUser();
+      if (!currentUser || currentUser.role !== 'Admin') {
+        validationList.innerHTML = '<div class="report-item"><p>Login as admin to review authority approvals.</p></div>';
+        if (pendingValidationCount) pendingValidationCount.textContent = 'Admin Only';
+        return;
+      }
+
+      const pendingAuthorities = getDemoUsers().filter(
+        (user) => user.role === 'Authority' && user.status === 'pending'
+      );
+      validationList.innerHTML = pendingAuthorities.length
+        ? pendingAuthorities.map(renderValidationCard).join('')
+        : '<div class="report-item"><p>No pending authority validations.</p></div>';
+      if (pendingValidationCount) pendingValidationCount.textContent = `${pendingAuthorities.length} Pending`;
+    }
+  }
+
+  async function loadAdminWorkbench() {
+    if (!adminIncidentList) return;
+
+    const currentUser = getCurrentUser();
+    if (!currentUser || currentUser.role !== 'Admin') {
+      adminIncidentList.innerHTML = '';
+      return;
+    }
+
+    try {
+      const data = await apiRequest(`/incidents?viewerId=${encodeURIComponent(currentUser.id)}`);
+      adminIncidentList.innerHTML = data.incidents.length
+        ? data.incidents.map(renderAdminIncidentCard).join('')
+        : '<div class="report-item"><p>No user reports available for admin action yet.</p></div>';
+      if (adminIncidentCount) {
+        adminIncidentCount.textContent = `${data.incidents.length} Reports`;
+      }
+    } catch (error) {
+      const incidents = listDemoIncidentsForViewer(currentUser);
+      adminIncidentList.innerHTML = incidents.length
+        ? incidents.map(renderAdminIncidentCard).join('')
+        : '<div class="report-item"><p>No user reports available for admin action yet.</p></div>';
+      if (adminIncidentCount) adminIncidentCount.textContent = `${incidents.length} Reports`;
     }
   }
 
@@ -356,7 +823,19 @@ $(document).ready(function () {
     });
   });
 
-  passwordToggles.forEach((toggle) => {
+  authSwitchLinks.forEach((switcher) => {
+    switcher.addEventListener('click', function () {
+      switchAuthTab(this.dataset.authTarget);
+    });
+  });
+
+  loginModeButtons.forEach((button) => {
+    button.addEventListener('click', function () {
+      setLoginMode(this.dataset.loginMode);
+    });
+  });
+
+  document.querySelectorAll('.password-toggle').forEach((toggle) => {
     toggle.addEventListener('click', function () {
       const targetId = this.dataset.togglePassword;
       const input = document.getElementById(targetId);
@@ -367,15 +846,71 @@ $(document).ready(function () {
     });
   });
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const authTarget = urlParams.get('auth');
-  if (authTarget && authTabs.length) {
-    const desiredTarget = authTarget === 'signup' ? 'signupFormWrap' : 'loginFormWrap';
-    const desiredTab = document.querySelector(`[data-auth-target="${desiredTarget}"]`);
-    if (desiredTab) {
-      desiredTab.click();
-    }
+  limitPhoneLikeInput(document.getElementById('signupPhone'));
+  limitPhoneLikeInput(document.getElementById('forgotIdentifier'));
+  limitPhoneLikeInput(document.getElementById('loginIdentifier'));
+
+  if (openAuthModal) {
+    openAuthModal.addEventListener('click', function () {
+      setLoginMode('user');
+      showAuthModal('loginFormWrap');
+    });
   }
+
+  if (openAdminModal) {
+    openAdminModal.addEventListener('click', function () {
+      setLoginMode('admin');
+      showAuthModal('loginFormWrap');
+    });
+  }
+
+  authPopupTriggers.forEach((trigger) => {
+    trigger.addEventListener('click', function () {
+      if (this.id === 'openAuthModal' || this.id === 'openAdminModal') {
+        return;
+      }
+      if (this.id !== 'openAdminModal') {
+        setLoginMode('user');
+      }
+      showAuthModal(this.dataset.authOpen || 'loginFormWrap');
+    });
+  });
+
+  if (loginNavLink) {
+    loginNavLink.addEventListener('click', function (event) {
+      if (!window.location.pathname.endsWith('/report.html') && !window.location.pathname.endsWith('report.html')) {
+        return;
+      }
+      event.preventDefault();
+      setLoginMode('user');
+      showAuthModal('loginFormWrap');
+    });
+  }
+
+  if (signupNavLink) {
+    signupNavLink.addEventListener('click', function (event) {
+      if (!window.location.pathname.endsWith('/report.html') && !window.location.pathname.endsWith('report.html')) {
+        return;
+      }
+      event.preventDefault();
+      setLoginMode('user');
+      showAuthModal('signupFormWrap');
+    });
+  }
+
+  if (closeAuthModal) {
+    closeAuthModal.addEventListener('click', hideAuthModal);
+  }
+
+  if (authModalBackdrop) {
+    authModalBackdrop.addEventListener('click', hideAuthModal);
+  }
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && authModalShell && !authModalShell.classList.contains('d-none')) {
+      hideAuthModal();
+    }
+  });
 
   if (signupForm) {
     signupForm.addEventListener('submit', async function (event) {
@@ -415,12 +950,34 @@ $(document).ready(function () {
         });
 
         setCurrentUser(data.user);
+        upsertDemoUser({ ...data.user, password: signupPassword });
         signupForm.reset();
         updateAccessState();
         showStatus(authMessage, data.message, true);
+        hideAuthModal();
         await loadValidationQueue();
+        await loadIncidents();
+        await loadAdminWorkbench();
       } catch (error) {
-        showStatus(authMessage, error.message, false);
+        const fallbackUser = {
+          id: createDemoId('user'),
+          role: $('#signupRole').val(),
+          name: $('#signupName').val().trim(),
+          email: signupEmail,
+          phone: signupPhone,
+          location: $('#signupLocation').val().trim(),
+          password: signupPassword,
+          status: $('#signupRole').val() === 'Authority' ? 'pending' : 'approved',
+        };
+        const normalizedFallbackUser = upsertDemoUser(fallbackUser);
+        setCurrentUser(normalizedFallbackUser);
+        signupForm.reset();
+        updateAccessState();
+        showStatus(authMessage, 'Demo account created successfully. Ab aapka account local demo mode me bhi ready hai.', true);
+        hideAuthModal();
+        await loadIncidents();
+        await loadValidationQueue();
+        await loadAdminWorkbench();
       }
     });
   }
@@ -452,13 +1009,142 @@ $(document).ready(function () {
           }),
         });
 
+        if (selectedLoginMode === 'admin' && data.user.role !== 'Admin') {
+          showStatus(authMessage, 'Ye admin account nahi hai. User login use karo.', false);
+          return;
+        }
+
+        if (selectedLoginMode === 'user' && data.user.role === 'Admin') {
+          showStatus(authMessage, 'Admin account ke liye Admin Login use karo.', false);
+          return;
+        }
+
         setCurrentUser(data.user);
+        upsertDemoUser({ ...data.user, password: $('#loginPassword').val().trim() });
         loginForm.reset();
         updateAccessState();
         showStatus(authMessage, data.message, true);
+        hideAuthModal();
+        await loadIncidents();
+        await loadValidationQueue();
+        await loadAdminWorkbench();
       } catch (error) {
-        showStatus(authMessage, error.message, false);
+        const demoUser = findDemoUser(identifier);
+        const password = $('#loginPassword').val().trim();
+
+        if (!demoUser) {
+          showStatus(authMessage, error.message || 'Account not found. Please signup first.', false);
+          return;
+        }
+
+        if (demoUser.password !== password) {
+          showStatus(authMessage, 'Password not matched. Forgot Password se reset kar lo.', false);
+          return;
+        }
+
+        if (selectedLoginMode === 'admin' && demoUser.role !== 'Admin') {
+          showStatus(authMessage, 'Ye admin account nahi hai. Admin Login ke liye admin credentials use karo.', false);
+          return;
+        }
+
+        if (selectedLoginMode === 'user' && demoUser.role === 'Admin') {
+          showStatus(authMessage, 'Admin account ke liye Admin Login use karo.', false);
+          return;
+        }
+
+        setCurrentUser(demoUser);
+        loginForm.reset();
+        updateAccessState();
+        showStatus(authMessage, 'Demo login successful.', true);
+        hideAuthModal();
+        await loadIncidents();
+        await loadValidationQueue();
+        await loadAdminWorkbench();
       }
+    });
+  }
+
+  if (forgotPasswordBtn) {
+    forgotPasswordBtn.addEventListener('click', function () {
+      openForgotPasswordPanel();
+    });
+  }
+
+  if (backToLoginBtn) {
+    backToLoginBtn.addEventListener('click', function () {
+      resetForgotPasswordState();
+      switchAuthTab('loginFormWrap');
+      showStatus(authMessage, 'Login panel ready. Reset password ke baad naya password use karo.', true);
+    });
+  }
+
+  if (forgotPasswordForm) {
+    forgotPasswordForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const identifier = $('#forgotIdentifier').val().trim();
+      const demoUser = findDemoUser(identifier);
+
+      if (!demoUser) {
+        showStatus(authMessage, 'Is email ya phone number se koi demo account nahi mila. Pehle signup karo.', false);
+        return;
+      }
+
+      pendingResetIdentifier = identifier;
+      pendingResetOtp = String(Math.floor(100000 + Math.random() * 900000));
+      if (demoOtpValue) demoOtpValue.textContent = pendingResetOtp;
+      if (demoOtpBox) demoOtpBox.classList.remove('d-none');
+      if (otpVerificationForm) otpVerificationForm.classList.remove('d-none');
+      showStatus(authMessage, 'Demo OTP generate ho gaya. Niche dikh raha OTP enter karke password reset karo.', true);
+    });
+  }
+
+  if (otpVerificationForm) {
+    otpVerificationForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      if (!pendingResetOtp || !pendingResetIdentifier) {
+        showStatus(authMessage, 'Pehle demo OTP generate karo.', false);
+        return;
+      }
+
+      const enteredOtp = $('#otpCode').val().trim();
+      const newPassword = $('#resetPassword').val().trim();
+      const confirmPassword = $('#resetConfirmPassword').val().trim();
+
+      if (enteredOtp !== pendingResetOtp) {
+        showStatus(authMessage, 'OTP galat hai. Demo OTP box me jo code hai wahi dalo.', false);
+        return;
+      }
+
+      if (newPassword.length < 6) {
+        showStatus(authMessage, 'New password kam se kam 6 characters ka hona chahiye.', false);
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        showStatus(authMessage, 'New password aur confirm password match nahi kar rahe.', false);
+        return;
+      }
+
+      const users = getDemoUsers();
+      const targetIndex = users.findIndex((user) => {
+        const emailMatch = (user.email || '').toLowerCase() === pendingResetIdentifier.toLowerCase();
+        const phoneMatch = normalizePhone(user.phone) === normalizePhone(pendingResetIdentifier);
+        return emailMatch || phoneMatch;
+      });
+
+      if (targetIndex === -1) {
+        showStatus(authMessage, 'Demo account missing hai. Dobara signup karke try karo.', false);
+        return;
+      }
+
+      users[targetIndex] = { ...users[targetIndex], password: newPassword };
+      saveDemoUsers(users);
+      setCurrentUser(users[targetIndex]);
+      resetForgotPasswordState();
+      switchAuthTab('loginFormWrap');
+      showStatus(authMessage, 'Password reset successful. Ab naya password use karke login ho gaya hai.', true);
+      hideAuthModal();
     });
   }
 
@@ -474,6 +1160,10 @@ $(document).ready(function () {
       if (reportMessage) {
         reportMessage.classList.add('d-none');
       }
+
+      loadIncidents();
+      loadValidationQueue();
+      loadAdminWorkbench();
     });
   }
 
@@ -524,8 +1214,27 @@ $(document).ready(function () {
         incidentReportForm.reset();
         showStatus(reportMessage, data.message, true);
         await loadIncidents();
+        await loadAdminWorkbench();
       } catch (error) {
         showStatus(reportMessage, error.message, false);
+        try {
+          createDemoIncident(
+            {
+              title: $('#incidentTitle').val().trim(),
+              type: $('#incidentType').val(),
+              location: $('#incidentLocation').val().trim(),
+              severity: $('#incidentSeverity').val(),
+              description: $('#incidentDescription').val().trim(),
+            },
+            currentUser
+          );
+          incidentReportForm.reset();
+          showStatus(reportMessage, 'Incident report demo mode me submit ho gaya. Admin ab ise review kar sakta hai.', true);
+          await loadIncidents();
+          await loadAdminWorkbench();
+        } catch (demoError) {
+          showStatus(reportMessage, demoError.message, false);
+        }
       }
     });
   }
@@ -534,22 +1243,90 @@ $(document).ready(function () {
     validationList.addEventListener('click', async function (event) {
       const button = event.target.closest('.validate-btn');
       if (!button) return;
+      const currentUser = getCurrentUser();
 
       try {
         const data = await apiRequest(`/validations/${button.dataset.id}/approve`, {
           method: 'PATCH',
+          body: JSON.stringify({
+            adminId: currentUser?.id,
+          }),
         });
         showStatus(validationMessage, data.message, true);
 
-        const currentUser = getCurrentUser();
         if (currentUser && currentUser.id === data.user._id) {
           setCurrentUser({ ...currentUser, status: 'approved' });
           updateAccessState();
         }
 
         await loadValidationQueue();
+        await loadAdminWorkbench();
       } catch (error) {
-        showStatus(validationMessage, error.message, false);
+        try {
+          const approvedUser = approveDemoAuthority(button.dataset.id);
+          showStatus(validationMessage, `${approvedUser.name} approved in demo mode.`, true);
+          await loadValidationQueue();
+          await loadAdminWorkbench();
+        } catch (demoError) {
+          showStatus(validationMessage, demoError.message || error.message, false);
+        }
+      }
+    });
+  }
+
+  if (adminIncidentList) {
+    adminIncidentList.addEventListener('click', async function (event) {
+      const button = event.target.closest('.admin-save-incident-btn');
+      if (!button) return;
+
+      const currentUser = getCurrentUser();
+      if (!currentUser || currentUser.role !== 'Admin') {
+        showStatus(adminIncidentMessage, 'Only admin can update report approvals and progress.', false);
+        return;
+      }
+
+      const card = button.closest('.admin-incident-card');
+      const incidentId = card?.dataset.incidentId;
+      if (!card || !incidentId) return;
+
+      const approvalStatus = card.querySelector('.admin-approval-select')?.value;
+      const status = card.querySelector('.admin-status-select')?.value;
+      const progressPercent = Number(card.querySelector('.admin-progress-input')?.value || 0);
+      const adminNote = card.querySelector('.admin-note-input')?.value || '';
+
+      try {
+        const data = await apiRequest(`/incidents/${incidentId}/admin-update`, {
+          method: 'PATCH',
+          body: JSON.stringify({
+            adminId: currentUser.id,
+            approvalStatus,
+            status,
+            progressPercent,
+            adminNote,
+          }),
+        });
+
+        showStatus(adminIncidentMessage, data.message, true);
+        await loadIncidents();
+        await loadAdminWorkbench();
+      } catch (error) {
+        try {
+          updateDemoIncident(
+            incidentId,
+            {
+              approvalStatus,
+              status,
+              progressPercent,
+              adminNote,
+            },
+            currentUser
+          );
+          showStatus(adminIncidentMessage, 'Incident progress demo mode me save ho gaya.', true);
+          await loadIncidents();
+          await loadAdminWorkbench();
+        } catch (demoError) {
+          showStatus(adminIncidentMessage, demoError.message || error.message, false);
+        }
       }
     });
   }
@@ -771,9 +1548,12 @@ $(document).ready(function () {
     $('html, body').animate({ scrollTop: 0 }, 500);
   });
 
+  ensureDemoSeedData();
   updateAccessState();
+  setLoginMode('user');
   loadIncidents();
   loadValidationQueue();
+  loadAdminWorkbench();
   loadUpdates();
   loadDonations();
 });

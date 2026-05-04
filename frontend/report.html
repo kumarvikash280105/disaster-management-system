@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark fixed-top"><div class="container"><a class="navbar-brand" href="index.html"><i class="fas fa-shield-halved"></i>Community disaster Management System</a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span></span><span></span><span></span><span></span></button><div class="collapse navbar-collapse" id="navbarNav"><ul class="navbar-nav ms-auto"><li class="nav-item"><a class="nav-link" href="index.html">Home</a></li><li class="nav-item"><a class="nav-link" href="about.html">About</a></li><li class="nav-item"><a class="nav-link" href="services.html">Services</a></li><li class="nav-item"><a class="nav-link active" href="report.html">Report</a></li><li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li><li class="nav-item"><a class="nav-link" href="resources.html">Resources</a></li><li class="nav-item"><a class="nav-link" href="donate.html">Donate</a></li><li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li></ul><div class="nav-user-tools ms-lg-3"><button type="button" class="user-status-badge d-none d-lg-inline-flex account-toggle" id="userStatus">Guest Mode</button><div class="account-dropdown d-none" id="accountDropdown"><div class="account-dropdown-head" id="accountDropdownHead">Quick access</div><a href="report.html?auth=login#access-report" class="account-link" id="loginNavLink">Login</a><a href="report.html?auth=signup#access-report" class="account-link" id="signupNavLink">Signup</a><button type="button" class="btn btn-logout" id="logoutBtn">Logout</button></div></div></div></div></nav>
+    <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark fixed-top"><div class="container"><a class="navbar-brand" href="index.html"><i class="fas fa-shield-halved"></i>Community disaster Management System</a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span></span><span></span><span></span><span></span></button><div class="collapse navbar-collapse" id="navbarNav"><ul class="navbar-nav ms-auto"><li class="nav-item"><a class="nav-link" href="index.html">Home</a></li><li class="nav-item"><a class="nav-link" href="about.html">About</a></li><li class="nav-item"><a class="nav-link" href="services.html">Services</a></li><li class="nav-item"><a class="nav-link active" href="report.html">Report</a></li><li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li><li class="nav-item"><a class="nav-link" href="resources.html">Resources</a></li><li class="nav-item"><a class="nav-link" href="donate.html">Donate</a></li><li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li></ul><div class="nav-user-tools ms-lg-3"><button type="button" class="user-status-badge d-none d-lg-inline-flex account-toggle" id="userStatus">Login / Signup</button><div class="account-dropdown d-none" id="accountDropdown"><div class="account-dropdown-head" id="accountDropdownHead">Quick access</div><a href="report.html#access-report" class="account-link" id="loginNavLink">Login</a><a href="report.html#access-report" class="account-link" id="signupNavLink">Signup</a><button type="button" class="btn btn-logout" id="logoutBtn">Logout</button></div></div></div></div></nav>
     <section class="inner-hero text-center"><div class="container"><h1>Incident Reporting</h1><p>Login, signup, authority onboarding, reporting workflow, relief tracking, and filtered updates in one page.</p></div></section>
     <section id="access-report" class="section-padding section-bg">
         <div class="container">
@@ -23,80 +23,29 @@
                     <div class="auth-panel">
                         <div class="auth-header">
                             <h3>Citizen Access Portal</h3>
-                            <p>Create an account or log in to submit verified incident reports and track your requests.</p>
+                            <p>Open a clean popup to log in or create an account before reporting incidents and tracking requests.</p>
                             <div class="auth-feature-strip">
                                 <span><i class="fas fa-user-check"></i> Verified access</span>
                                 <span><i class="fas fa-mobile-screen"></i> Email or phone login</span>
                                 <span><i class="fas fa-shield-heart"></i> Secure reporting</span>
                             </div>
                         </div>
-                        <div class="auth-toggle"><button class="auth-tab active" type="button" data-auth-target="loginFormWrap">Login</button><button class="auth-tab" type="button" data-auth-target="signupFormWrap">Signup</button></div>
-                        <div id="loginFormWrap" class="auth-form-wrap active">
-                            <form id="loginForm" class="row g-3">
-                                <div class="col-12">
-                                    <label class="auth-label" for="loginIdentifier">Email or Phone Number</label>
-                                    <input type="text" class="form-control" id="loginIdentifier" placeholder="Enter your email or phone number" minlength="10" required>
+                        <div class="auth-preview-box">
+                            <div class="auth-preview-copy">
+                                <p class="small-label">AUTHENTICATION POPUP</p>
+                                <h4>Keep login and signup neat in one popup</h4>
+                                <p>Use the action buttons below to open a centered popup for login or account creation without cluttering the report page.</p>
+                                <div class="admin-quick-card">
+                                    <span class="mini-tag info-tag">Admin Demo Login</span>
+                                    <strong>Email: admin@cdms.in</strong>
+                                    <strong>Password: admin123</strong>
                                 </div>
-                                <div class="col-12">
-                                    <label class="auth-label" for="loginPassword">Password</label>
-                                    <div class="password-field">
-                                        <input type="password" class="form-control" id="loginPassword" placeholder="Enter your password" minlength="6" required>
-                                        <button type="button" class="password-toggle" data-toggle-password="loginPassword">Show</button>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="auth-helper-row">
-                                        <span>Use the same email or phone number you registered with.</span>
-                                        <a href="report.html?auth=signup#access-report">New user? Signup</a>
-                                    </div>
-                                </div>
-                                <div class="col-12 d-grid"><button type="submit" class="btn btn-premium">Login Now</button></div>
-                            </form>
-                        </div>
-                        <div id="signupFormWrap" class="auth-form-wrap">
-                            <form id="signupForm" class="row g-3">
-                                <div class="col-12">
-                                    <label class="auth-label" for="signupRole">Register As</label>
-                                    <select class="form-control" id="signupRole" required><option value="">Choose account type</option><option value="Citizen">Citizen</option><option value="Authority">Authority</option></select>
-                                </div>
-                                <div class="col-12">
-                                    <label class="auth-label" for="signupName">Full Name</label>
-                                    <input type="text" class="form-control" id="signupName" placeholder="Enter full name" minlength="3" required>
-                                </div>
-                                <div class="col-12">
-                                    <label class="auth-label" for="signupEmail">Email Address</label>
-                                    <input type="email" class="form-control" id="signupEmail" placeholder="Enter email address" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="auth-label" for="signupPhone">Phone Number</label>
-                                    <input type="tel" class="form-control" id="signupPhone" placeholder="Enter 10-digit phone number" pattern="[0-9]{10}" minlength="10" maxlength="10" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="auth-label" for="signupLocation">City / Area</label>
-                                    <input type="text" class="form-control" id="signupLocation" placeholder="Enter city or area" minlength="2" required>
-                                </div>
-                                <div class="col-12">
-                                    <label class="auth-label" for="signupPassword">Create Password</label>
-                                    <div class="password-field">
-                                        <input type="password" class="form-control" id="signupPassword" placeholder="Create a strong password" minlength="6" required>
-                                        <button type="button" class="password-toggle" data-toggle-password="signupPassword">Show</button>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <label class="auth-label" for="signupConfirmPassword">Confirm Password</label>
-                                    <div class="password-field">
-                                        <input type="password" class="form-control" id="signupConfirmPassword" placeholder="Confirm your password" minlength="6" required>
-                                        <button type="button" class="password-toggle" data-toggle-password="signupConfirmPassword">Show</button>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="auth-helper-row">
-                                        <span>Authority accounts go to validation queue before activation.</span>
-                                        <a href="report.html?auth=login#access-report">Already registered? Login</a>
-                                    </div>
-                                </div>
-                                <div class="col-12 d-grid"><button type="submit" class="btn btn-premium">Create Account</button></div>
-                            </form>
+                            </div>
+                            <div class="auth-preview-actions">
+                                <button type="button" class="btn btn-premium auth-popup-trigger" id="openAuthModal">Open User Login / Signup</button>
+                                <button type="button" class="btn btn-secondary-premium auth-popup-trigger" id="openAdminModal" data-auth-open="loginFormWrap">Open Admin Login</button>
+                                <button type="button" class="btn btn-outline-primary auth-popup-trigger" data-auth-open="signupFormWrap">Create New Account</button>
+                            </div>
                         </div>
                         <div class="portal-status" id="authMessage">Please login or signup to start reporting incidents.</div>
                         <div class="auth-insight-panel"><div class="insight-head"><h4>Access Snapshot</h4><span class="insight-pill" id="insightRole">Guest</span></div><div class="insight-grid"><div class="insight-card"><span class="insight-label">Account State</span><strong id="accountState">Awaiting Login</strong><p>Login or signup to unlock reporting and authority actions.</p></div><div class="insight-card"><span class="insight-label">Profile Type</span><strong id="profileType">Visitor</strong><p>Citizens can report incidents, authorities can join validation flow.</p></div></div><div class="quick-highlights"><div class="highlight-row"><span><i class="fas fa-location-dot"></i> Coverage</span><strong id="coverageArea">Community Wide</strong></div><div class="highlight-row"><span><i class="fas fa-bell"></i> Update Mode</span><strong id="updateMode">General Alerts</strong></div><div class="highlight-row"><span><i class="fas fa-clipboard-list"></i> Report Access</span><strong id="reportAccessState">Locked</strong></div></div></div>
@@ -113,7 +62,165 @@
             </div>
         </div>
     </section>
+    <div class="auth-modal-shell d-none" id="authModalShell">
+        <div class="auth-modal-backdrop" id="authModalBackdrop"></div>
+        <div class="auth-modal-card">
+            <button type="button" class="auth-modal-close" id="closeAuthModal" aria-label="Close authentication popup"><i class="fas fa-xmark"></i></button>
+            <div class="auth-modal-grid">
+                <div class="auth-modal-side">
+                    <p class="small-label">SECURE COMMUNITY ACCESS</p>
+                    <h3>Welcome Back</h3>
+                    <p>Login to continue reporting emergencies, tracking support requests, and managing verified community updates.</p>
+                    <div class="auth-feature-strip">
+                        <span><i class="fas fa-user-check"></i> Verified users</span>
+                        <span><i class="fas fa-phone-volume"></i> Phone or email access</span>
+                        <span><i class="fas fa-triangle-exclamation"></i> Faster emergency reporting</span>
+                    </div>
+                </div>
+                <div class="auth-modal-form">
+                    <div class="auth-toggle"><button class="auth-tab active" type="button" data-auth-target="loginFormWrap">Login</button><button class="auth-tab" type="button" data-auth-target="signupFormWrap">Signup</button></div>
+                    <div id="loginFormWrap" class="auth-form-wrap active">
+                        <form id="loginForm" class="row g-3">
+                            <div class="col-12">
+                                <div class="login-mode-switch">
+                                    <button type="button" class="login-mode-btn active" data-login-mode="user">User Login</button>
+                                    <button type="button" class="login-mode-btn" data-login-mode="admin">Admin Login</button>
+                                </div>
+                                <div class="admin-login-hint d-none" id="adminLoginHint">
+                                    Demo admin: <strong>admin@cdms.in</strong> / <strong>admin123</strong>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="auth-label" for="loginIdentifier">Email or Phone Number</label>
+                                <input type="text" class="form-control" id="loginIdentifier" placeholder="Enter your email or 10-digit phone number" minlength="10" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="auth-label" for="loginPassword">Password</label>
+                                <div class="password-field">
+                                    <input type="password" class="form-control" id="loginPassword" placeholder="Enter your password" minlength="6" required>
+                                    <button type="button" class="password-toggle" data-toggle-password="loginPassword">Show</button>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="auth-helper-row">
+                                    <span>Use the same email or phone number you registered with.</span>
+                                    <div class="auth-helper-actions">
+                                        <button type="button" class="forgot-password-link" id="forgotPasswordBtn">Forgot Password?</button>
+                                        <button type="button" class="auth-switch-link" data-auth-target="signupFormWrap">New user? Signup</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 d-grid"><button type="submit" class="btn btn-premium">Login Now</button></div>
+                        </form>
+                    </div>
+                    <div id="forgotPasswordWrap" class="auth-form-wrap">
+                        <form id="forgotPasswordForm" class="row g-3">
+                            <div class="col-12">
+                                <label class="auth-label" for="forgotIdentifier">Registered Email or Phone Number</label>
+                                <input type="text" class="form-control" id="forgotIdentifier" placeholder="Enter your registered email or 10-digit phone number" inputmode="text" required>
+                            </div>
+                            <div class="col-12 d-grid"><button type="submit" class="btn btn-premium">Send Demo OTP</button></div>
+                        </form>
+                        <form id="otpVerificationForm" class="row g-3 d-none otp-verification-form">
+                            <div class="col-12">
+                                <label class="auth-label" for="otpCode">Demo OTP</label>
+                                <input type="text" class="form-control" id="otpCode" placeholder="Enter 6-digit OTP" inputmode="numeric" maxlength="6" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="auth-label" for="resetPassword">New Password</label>
+                                <div class="password-field">
+                                    <input type="password" class="form-control" id="resetPassword" placeholder="Enter new password" minlength="6" required>
+                                    <button type="button" class="password-toggle" data-toggle-password="resetPassword">Show</button>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="auth-label" for="resetConfirmPassword">Confirm New Password</label>
+                                <div class="password-field">
+                                    <input type="password" class="form-control" id="resetConfirmPassword" placeholder="Confirm new password" minlength="6" required>
+                                    <button type="button" class="password-toggle" data-toggle-password="resetConfirmPassword">Show</button>
+                                </div>
+                            </div>
+                            <div class="col-12 d-grid"><button type="submit" class="btn btn-premium">Verify OTP & Reset Password</button></div>
+                        </form>
+                        <div class="demo-otp-box d-none" id="demoOtpBox">
+                            <span class="demo-otp-label">Demo OTP</span>
+                            <strong id="demoOtpValue">000000</strong>
+                            <p>Isi OTP ko niche enter karke password reset karo.</p>
+                        </div>
+                        <div class="auth-helper-row auth-helper-row-stack">
+                            <span>Demo flow ke liye OTP yahi par show hoga.</span>
+                            <button type="button" class="auth-switch-link" id="backToLoginBtn">Back to Login</button>
+                        </div>
+                    </div>
+                    <div id="signupFormWrap" class="auth-form-wrap">
+                        <form id="signupForm" class="row g-3">
+                            <div class="col-12">
+                                <label class="auth-label" for="signupRole">Register As</label>
+                                <select class="form-control" id="signupRole" required><option value="">Choose account type</option><option value="Citizen">User</option><option value="Authority">Authority</option></select>
+                            </div>
+                            <div class="col-12">
+                                <label class="auth-label" for="signupName">Full Name</label>
+                                <input type="text" class="form-control" id="signupName" placeholder="Enter full name" minlength="3" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="auth-label" for="signupEmail">Email Address</label>
+                                <input type="email" class="form-control" id="signupEmail" placeholder="Enter email address" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="auth-label" for="signupPhone">Phone Number</label>
+                                <input type="tel" class="form-control" id="signupPhone" placeholder="Enter 10-digit phone number" pattern="[0-9]{10}" inputmode="numeric" minlength="10" maxlength="10" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="auth-label" for="signupLocation">City / Area</label>
+                                <input type="text" class="form-control" id="signupLocation" placeholder="Enter city or area" minlength="2" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="auth-label" for="signupPassword">Create Password</label>
+                                <div class="password-field">
+                                    <input type="password" class="form-control" id="signupPassword" placeholder="Create a strong password" minlength="6" required>
+                                    <button type="button" class="password-toggle" data-toggle-password="signupPassword">Show</button>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="auth-label" for="signupConfirmPassword">Confirm Password</label>
+                                <div class="password-field">
+                                    <input type="password" class="form-control" id="signupConfirmPassword" placeholder="Confirm your password" minlength="6" required>
+                                    <button type="button" class="password-toggle" data-toggle-password="signupConfirmPassword">Show</button>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="auth-helper-row">
+                                    <span>Authority accounts go to validation queue before activation.</span>
+                                    <button type="button" class="auth-switch-link" data-auth-target="loginFormWrap">Already registered? Login</button>
+                                </div>
+                            </div>
+                            <div class="col-12 d-grid"><button type="submit" class="btn btn-premium">Create Account</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <section id="coordination" class="section-padding"><div class="container"><div class="section-title text-center"><p>COORDINATION HUB</p><h2>Validation, Relief Tracking & Smart Updates</h2></div><div class="row g-4"><div class="col-lg-4"><div class="coord-card"><div class="coord-head"><h3>Admin Validation Queue</h3><span class="mini-tag" id="pendingValidationCount">2 Pending</span></div><p>Key players like ward officers and authorities appear here for validation before they become active responders.</p><div id="validationList"><div class="validation-item"><div><h5>Rohit Sharma</h5><p>Authority • District Control Room</p></div><button class="btn btn-sm btn-premium validate-btn" data-name="Rohit Sharma">Validate</button></div><div class="validation-item"><div><h5>Anita Verma</h5><p>Authority • Medical Response Unit</p></div><button class="btn btn-sm btn-premium validate-btn" data-name="Anita Verma">Validate</button></div></div><div class="portal-status d-none" id="validationMessage"></div></div></div><div class="col-lg-4"><div class="coord-card"><div class="coord-head"><h3>Relief Tracking Board</h3><span class="mini-tag active-tag">Live</span></div><div class="tracking-list"><div class="tracking-item"><strong>Food Kits</strong><span>Ward 12 Relief Camp</span><div class="progress"><div class="progress-bar bg-success" style="width: 82%"></div></div></div><div class="tracking-item"><strong>Medical Aid</strong><span>Riverside Shelter Zone</span><div class="progress"><div class="progress-bar bg-warning" style="width: 58%"></div></div></div><div class="tracking-item"><strong>Rescue Boats</strong><span>Low-Lying Area Sector B</span><div class="progress"><div class="progress-bar bg-danger" style="width: 34%"></div></div></div></div></div></div><div class="col-lg-4"><div class="coord-card"><div class="coord-head"><h3>Location-Based Updates</h3><span class="mini-tag info-tag">Filtered</span></div><form id="updateFilterForm" class="row g-3"><div class="col-12"><input type="text" class="form-control" id="updateLocation" placeholder="Enter location e.g. Riverside"></div><div class="col-12"><select class="form-control" id="updateEmergencyType"><option value="All">All emergency types</option><option value="Flood">Flood</option><option value="Fire">Fire</option><option value="Medical Emergency">Medical Emergency</option><option value="Road Block">Road Block</option></select></div><div class="col-12 d-grid"><button type="submit" class="btn btn-premium">Get Updates</button></div></form><div class="updates-feed" id="updatesFeed"><div class="update-card" data-location="Riverside" data-type="Flood"><span>Riverside • Flood</span><p>Evacuation support active and relief vans expected within 25 minutes.</p></div><div class="update-card" data-location="Central Market" data-type="Road Block"><span>Central Market • Road Block</span><p>Road clearance team deployed. Alternate diversion route shared with traffic police.</p></div><div class="update-card" data-location="Hill View" data-type="Medical Emergency"><span>Hill View • Medical Emergency</span><p>First-aid unit moved to community school camp. Medicine refill dispatched.</p></div></div></div></div></div></div></section>
+    <section id="adminWorkbench" class="section-padding section-bg d-none">
+        <div class="container">
+            <div class="section-title text-center">
+                <p>ADMIN OPERATIONS</p>
+                <h2>Approve User Reports & Update Progress</h2>
+            </div>
+            <div class="admin-workbench-card">
+                <div class="coord-head">
+                    <div>
+                        <h3>Admin Incident Workbench</h3>
+                        <p class="admin-subcopy">Admin yahan user ke saare incident reports dekh kar approve, reject, aur progress update kar sakta hai.</p>
+                    </div>
+                    <span class="mini-tag active-tag" id="adminIncidentCount">0 Reports</span>
+                </div>
+                <div class="portal-status d-none" id="adminIncidentMessage"></div>
+                <div id="adminIncidentList" class="admin-incident-list"></div>
+            </div>
+        </div>
+    </section>
     <footer><div class="container"><div class="footer-bottom text-center"><p>© 2026 Community Disaster Management System.</p></div></div></footer>
     <button id="scrollTopBtn" title="Go to top"><i class="fas fa-arrow-up"></i></button>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script><script src="script.js"></script>

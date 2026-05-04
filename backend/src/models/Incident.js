@@ -29,7 +29,32 @@ const incidentSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      default: 'Open',
+      enum: ['Submitted', 'Approved', 'In Progress', 'Resolved', 'Rejected'],
+      default: 'Submitted',
+    },
+    approvalStatus: {
+      type: String,
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'pending',
+    },
+    progressPercent: {
+      type: Number,
+      min: 0,
+      max: 100,
+      default: 0,
+    },
+    adminNote: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    updatedByAdmin: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    updatedByAdminName: {
+      type: String,
+      default: '',
     },
     reportedBy: {
       type: mongoose.Schema.Types.ObjectId,

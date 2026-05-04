@@ -1,0 +1,25 @@
+{
+  "name": "cdms-windows-app",
+  "version": "1.0.0",
+  "description": "Windows desktop app for Community Disaster Management System",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win"
+  },
+  "build": {
+    "appId": "com.cdms.desktop",
+    "productName": "CDMS Desktop",
+    "files": [
+      "main.js",
+      "preload.js"
+    ],
+    "win": {
+      "target": "nsis"
+    }
+  },
+  "devDependencies": {
+    "electron": "^31.7.7",
+    "electron-builder": "^24.13.3"
+  }
+}

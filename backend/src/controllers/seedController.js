@@ -4,9 +4,22 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
 async function seedDefaults() {
+  const passwordHash = await bcrypt.hash('admin123', 10);
+  const adminUser = await User.findOne({ role: 'Admin' });
+  if (!adminUser) {
+    await User.create({
+      role: 'Admin',
+      name: 'System Admin',
+      email: 'admin@cdms.in',
+      phone: '9999999999',
+      location: 'Central Command',
+      passwordHash,
+      status: 'approved',
+    });
+  }
+
   const userCount = await User.countDocuments();
-  if (userCount === 0) {
-    const passwordHash = await bcrypt.hash('admin123', 10);
+  if (userCount === 1) {
     await User.insertMany([
       {
         role: 'Citizen',
@@ -70,6 +83,11 @@ async function seedDefaults() {
           location: 'Riverside Colony',
           severity: 'High',
           description: 'Residents are asking for evacuation help and dry ration support.',
+          status: 'Approved',
+          approvalStatus: 'approved',
+          progressPercent: 55,
+          adminNote: 'Relief team dispatched and evacuation vans are on the way.',
+          updatedByAdminName: 'System Admin',
           reportedBy: reporter._id,
           reporterName: reporter.name,
           reporterRole: reporter.role,
@@ -80,6 +98,11 @@ async function seedDefaults() {
           location: 'Central Market',
           severity: 'Medium',
           description: 'Traffic is stuck and ambulance movement is becoming difficult.',
+          status: 'In Progress',
+          approvalStatus: 'approved',
+          progressPercent: 70,
+          adminNote: 'Road clearance team is working with traffic support.',
+          updatedByAdminName: 'System Admin',
           reportedBy: reporter._id,
           reporterName: reporter.name,
           reporterRole: reporter.role,
@@ -90,6 +113,11 @@ async function seedDefaults() {
           location: 'Hill View',
           severity: 'Low',
           description: 'Minor injuries reported and volunteers need medicine stock.',
+          status: 'Submitted',
+          approvalStatus: 'pending',
+          progressPercent: 15,
+          adminNote: 'Awaiting admin review and medical unit assignment.',
+          updatedByAdminName: 'System Admin',
           reportedBy: reporter._id,
           reporterName: reporter.name,
           reporterRole: reporter.role,
